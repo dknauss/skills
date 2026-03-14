@@ -19,5 +19,6 @@ jobs:
 
       - uses: lycheeverse/lychee-action@v2
         with:
-          args: '--no-progress'
+          args: '--no-progress **/*.md'
+          failIfEmpty: false
           fail: true
