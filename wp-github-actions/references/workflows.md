@@ -560,7 +560,7 @@ These must be set in the repository's Settings > Secrets and variables > Actions
 
 Controls which files are excluded from the WordPress.org deployment. Place in the repo root.
 
-```
+```text
 # Directories
 /.wordpress-org
 /.git
@@ -646,7 +646,7 @@ parameters:
 
 This directory holds plugin assets for the WordPress.org listing. The deploy action moves its contents to the SVN `assets/` folder automatically.
 
-```
+```text
 .wordpress-org/
 ├── banner-772x250.png      # Plugin banner (standard)
 ├── banner-1544x500.png     # Plugin banner (retina)
