@@ -26,7 +26,7 @@ This skill reviews a WordPress.org plugin readme.txt file with a structured audi
 
 Before scoring anything, output a short block like this:
 
-```
+```text
 **Primary keyword:**    contact form
 **Secondary keywords:** spam protection, email notifications, WordPress form builder
 **Inferred from:**      plugin name, tags, description content
@@ -34,6 +34,7 @@ Before scoring anything, output a short block like this:
 ```
 
 How to infer:
+
 - Look at the plugin name, tags, and the first paragraph of the description
 - Ask: "If I were a WordPress site owner who needed this plugin, what would I type into the search bar?"
 - Primary keyword = the single phrase most likely to drive installs (usually 2–3 words)
@@ -51,7 +52,7 @@ All scoring in Phase 1 is evaluated against this inferred keyword. If the keywor
 
 Score each section out of 10. At the top of the audit, show a summary score table:
 
-```
+```text
 Section                        Score
 ─────────────────────────────────────
 Plugin Name & Tags             x/10
@@ -67,6 +68,7 @@ Overall                        x/80
 ```
 
 **Score ranges:**
+
 - **65–80** — Strong listing. Focus on polish: freshen changelog, improve screenshot captions, tweak tags.
 - **45–64** — Solid foundation with real gaps. Rewrite will make a meaningful difference.
 - **25–44** — Significant problems across multiple sections. Full rewrite needed.
@@ -77,13 +79,16 @@ For each section, write 2–5 specific findings. A finding should name the probl
 ### What to evaluate per section
 
 #### Plugin Name & Tags
+
 - Is the name descriptive of what the plugin *does*, not just a brand name?
 - Does it include the primary keyword users would search for?
 - Are up to 5 tags used? Are they the right ones — high-volume, specific to the plugin's function?
 - Would a stranger immediately understand what the plugin does from the name alone?
 
 #### Short Description (≤150 chars)
+
 This is the most visible piece of copy — it appears in search results and on the plugin card.
+
 - Does it lead with the user's problem or benefit, not the plugin's name?
 - Is it under 150 characters (hard limit — truncation kills CTR)?
 - Does it contain the primary keyword naturally?
@@ -91,6 +96,7 @@ This is the most visible piece of copy — it appears in search results and on t
 - Does it end before 150 chars — not mid-sentence?
 
 #### Long Description
+
 - Does the first paragraph act as a strong hook — benefit-led, not feature-led?
 - Is the primary keyword used in the first 150 words?
 - Are there H2/H3 headings to break up the text (using `== Heading ==` syntax)?
@@ -101,29 +107,34 @@ This is the most visible piece of copy — it appears in search results and on t
 - Are secondary/long-tail keywords naturally woven in?
 
 #### Installation
+
 - Are the steps numbered and complete?
 - Does it cover both manual (FTP) and automatic (dashboard) methods?
 - Are there any post-activation steps mentioned?
 
 #### FAQ
+
 - Are the questions things real users actually ask (check support forum topics if possible)?
 - Do the answers contain keywords naturally?
 - Is there at least one question that surfaces a common objection or concern?
 - Are questions phrased the way a user would type them, not how a developer would write them?
 
 #### Screenshots
+
 - Is there a `== Screenshots ==` section?
 - Does each screenshot have a caption (captions are indexed by the search engine)?
 - Do captions describe what the user sees AND include relevant keywords?
 - Are there enough screenshots to cover the key UI flows?
 
 #### Changelog
+
 - Is the changelog up to date?
 - Does it follow the format `= X.X.X =` with bullet points underneath?
 - Does the most recent entry communicate user-facing value, not just `"bug fixes"`?
 - Is there a reasonable update cadence visible (signals active maintenance)?
 
 #### Stable Tag & Plugin Headers
+
 - Does `Stable tag:` match the latest tag in the `/tags/` SVN directory?
 - Is `Requires at least:` conservative enough to not exclude users?
 - Is `Tested up to:` current (within 1–2 major WP releases)?
@@ -137,6 +148,7 @@ This is the most visible piece of copy — it appears in search results and on t
 After the audit, produce the complete rewritten readme.txt inside a code block.
 
 Rules for the rewrite:
+
 - **Preserve all factual content** — don't invent features, screenshots, or version numbers that weren't in the original.
 - **Improve, don't fabricate** — if a section is missing (e.g. no FAQ), write a placeholder with `<!-- TODO: add real questions from your support forum -->` rather than making things up.
 - **Keep the exact readme.txt format** — WordPress.org uses a specific Markdown-like syntax. Follow it precisely (see Format Reference below).
@@ -148,7 +160,7 @@ Rules for the rewrite:
 
 ## Format Reference
 
-```
+```text
 === Plugin Name ===
 Contributors: username
 Tags: tag1, tag2, tag3, tag4, tag5
@@ -212,7 +224,7 @@ These inform every judgment call in the audit and rewrite:
 
 ## Output format
 
-```
+```text
 ## Audit
 
 [score table]

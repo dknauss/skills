@@ -30,7 +30,9 @@ This skill audits a GitHub repository against best practices and generates or im
 Figure out what you're working with. Try these sources in order:
 
 ### If in a local git directory
+
 Check the current working directory for a `.git` folder. If present:
+
 - Read the existing README.md, CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md, LICENSE, CHANGELOG.md
 - Check `.github/` for issue templates, PR templates, workflows, CODEOWNERS, FUNDING.yml, dependabot.yml
 - Run `git remote -v` to identify the GitHub remote
@@ -38,7 +40,9 @@ Check the current working directory for a `.git` folder. If present:
 - Run `git tag --list` to check release tagging
 
 ### If `gh` CLI is available and authenticated
+
 Try `gh auth status` first. If authenticated:
+
 - `gh repo view --json name,description,url,homepageUrl,repositoryTopics,licenseInfo,isArchived,defaultBranchRef,stargazerCount,forkCount,hasIssuesEnabled,hasWikiEnabled` — repo metadata
 - `gh api repos/{owner}/{repo}/community/profile` — community health score
 - `gh api repos/{owner}/{repo}/branches` — branch list for hygiene check
@@ -48,7 +52,9 @@ Try `gh auth status` first. If authenticated:
 If `gh` isn't available or not authenticated, that's fine — work with what you have. Ask the user to provide files or a repo URL only if you have nothing to go on.
 
 ### Key information to collect
+
 Before auditing, make sure you understand:
+
 - What the project does (language, framework, purpose)
 - Who the audience is (developers, end users, both)
 - Whether it's an org repo or personal repo
@@ -66,7 +72,7 @@ Score the repository across these categories. For each, give a score out of 10 a
 
 Present this at the top of the audit:
 
-```
+```text
 Category                        Score
 ─────────────────────────────────────
 README Quality                  x/10
@@ -80,6 +86,7 @@ Overall                         x/60
 ```
 
 **Score ranges:**
+
 - **50–60** — Excellent. Minor polish only.
 - **35–49** — Good foundation, real gaps to fill. Optimization will make a visible difference.
 - **20–34** — Significant issues. Multiple files need creation or rewriting.
@@ -88,9 +95,11 @@ Overall                         x/60
 ### What to evaluate per category
 
 #### README Quality (x/10)
+
 The README is the repo's landing page and the single highest-impact file.
 
 **Structure** — Does it follow a logical flow? The ideal order for a repo README:
+
 1. Logo/project name (centered, for brand recognition)
 2. Badge row (build status, coverage, license, version, downloads — aim for 5-10, not more)
 3. One-liner description (a compelling elevator pitch, not a generic statement)
@@ -108,6 +117,7 @@ The README is the repo's landing page and the single highest-impact file.
 **Technical details** — Is syntax highlighting used in code blocks? Are links working? Is the length reasonable (under 500 lines, with detailed docs in `/docs` if needed)?
 
 #### Repository Metadata (x/10)
+
 The "About" section fields have outsized impact on discoverability.
 
 - **Repository name** — Is it descriptive and keyword-rich? `react-calendar` is far better than `my-widget`. Lowercase with hyphens.
@@ -117,6 +127,7 @@ The "About" section fields have outsized impact on discoverability.
 - **Social preview image** — Is a custom image set (1280×640px, 2:1 ratio)? Without one, shared links on social media show a generic avatar. Tools like GitHub Socialify or Canva can generate these.
 
 #### Community Health Files (x/10)
+
 These are the baseline for any serious repository.
 
 - **CONTRIBUTING.md** — Does it exist? Does it explain how to contribute, code style expectations, and the PR process? Does it mention issue/PR templates?
@@ -129,6 +140,7 @@ These are the baseline for any serious repository.
 For organizations: check if there's a `.github` repository with default health files. A `.github` repo lets you set org-wide defaults for CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md, SUPPORT.md, and FUNDING.yml — so individual repos inherit them automatically.
 
 #### Issue & PR Templates (x/10)
+
 Templates guide contributor quality and prevent incomplete bug reports.
 
 - **Issue templates** — Are there YAML-based issue forms (`.github/ISSUE_TEMPLATE/*.yml`)? These render as structured web forms with dropdowns, checkboxes, and required fields — much better than markdown templates. Check for at least a bug report and feature request template. Are filenames numbered for ordering (e.g., `01-bug-report.yml`, `02-feature-request.yml`)?
@@ -137,6 +149,7 @@ Templates guide contributor quality and prevent incomplete bug reports.
 - **CODEOWNERS** — Does it exist? Does it define who reviews changes to specific files/directories?
 
 #### CI/CD & Automation (x/10)
+
 Automation signals engineering maturity.
 
 - **GitHub Actions workflows** — Are there CI workflows for testing, linting, building? Passing status badges in the README?
@@ -145,6 +158,7 @@ Automation signals engineering maturity.
 - **Stale issue management** — Is `actions/stale` or similar configured?
 
 #### Releases & Branch Hygiene (x/10)
+
 - **Releases** — Are there tagged releases with changelogs? Is semantic versioning used?
 - **Branch hygiene** — Are there stale branches that should be cleaned up? Dozens of stale branches signal loss of control.
 - **`.gitattributes`** — Does it define `export-ignore` for clean release archives?
@@ -157,6 +171,7 @@ Automation signals engineering maturity.
 Based on the audit, generate the files that are missing or need improvement. Always ask the user before overwriting existing files.
 
 ### File generation order (by impact)
+
 1. README.md (highest impact, do this first)
 2. LICENSE (if missing — ask user which license they want)
 3. CONTRIBUTING.md
@@ -169,7 +184,9 @@ Based on the audit, generate the files that are missing or need improvement. Alw
 10. .github config files (dependabot.yml, CODEOWNERS, FUNDING.yml)
 
 ### README generation guidelines
+
 When writing or rewriting a README:
+
 - Start with the project name and a one-liner that clearly states what it does
 - Include a badge row — at minimum: build status, license, version. Use shields.io format
 - Add a quick start section that gets someone running in 3 steps or fewer
@@ -179,9 +196,11 @@ When writing or rewriting a README:
 - Use collapsible `<details>` sections for optional/advanced content
 
 ### Community health file guidelines
+
 When generating these files, tailor them to the specific project — avoid generic boilerplate that ignores the project's language, tooling, and conventions.
 
 **CONTRIBUTING.md** should cover:
+
 - How to set up the development environment
 - Code style and linting rules (reference actual tools the project uses)
 - How to run tests
@@ -189,6 +208,7 @@ When generating these files, tailor them to the specific project — avoid gener
 - Issue labeling conventions if applicable
 
 **SECURITY.md** should include:
+
 - Supported versions (which versions receive security fixes)
 - How to report a vulnerability (private email or GitHub Private Vulnerability Reporting)
 - Expected response timeline
@@ -197,6 +217,7 @@ When generating these files, tailor them to the specific project — avoid gener
 **CODE_OF_CONDUCT.md** — Use the Contributor Covenant 2.1 unless the user has a different preference.
 
 ### Issue template guidelines
+
 Generate YAML-based issue forms, not markdown templates. Example structure for a bug report:
 
 ```yaml
@@ -258,6 +279,7 @@ Adapt the fields to the specific project type (e.g., a CLI tool wouldn't ask for
 ## Phase 3: Verify
 
 After generating files:
+
 - If working locally, verify the files are in the correct locations
 - Check that all internal links in the README work
 - Confirm badge URLs are correctly formatted
