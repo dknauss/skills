@@ -39,6 +39,20 @@ Audits a GitHub profile page — bio, pinned repos, profile README, stats widget
 - GitHub Docs — [Customizing your organization's profile](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/customizing-your-organizations-profile)
 - GitHub Docs — [Contributions on your profile](https://docs.github.com/en/account-and-profile/concepts/contributions-on-your-profile)
 
+### ⚙️ WordPress GitHub Actions
+
+Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. Analyzes your plugin's structure (Composer, JS/CSS assets, tests, WordPress.org listing) and creates the right set of workflows: coding standards (WPCS/PHPCS), PHP and JS/CSS linting, PHPUnit testing, PHPStan static analysis, Composer security scanning, WordPress Playground PR previews, and automated deployment to WordPress.org.
+
+**Trigger phrases:** *"add CI to my WordPress plugin"*, *"set up GitHub Actions for my plugin"*, *"deploy my plugin to WordPress.org automatically"*
+
+**Sources:**
+
+- Joost de Valk — [GitHub Actions to keep your WordPress plugin healthy](https://joost.blog/github-actions-wordpress/)
+- [10up/wpcs-action](https://github.com/10up/wpcs-action) — WordPress Coding Standards GitHub Action
+- [10up/action-wordpress-plugin-deploy](https://github.com/10up/action-wordpress-plugin-deploy) — Deploy to WordPress.org
+- [WordPress/action-wp-playground-pr-preview](https://github.com/WordPress/action-wp-playground-pr-preview) — Playground PR previews
+- WordPress Developer Blog — [How to add automated unit tests to your WordPress plugin](https://developer.wordpress.org/news/2025/12/how-to-add-automated-unit-tests-to-your-wordpress-plugin/)
+
 ### 📝 WordPress Readme Optimizer
 
 Reviews a WordPress.org plugin `readme.txt` with a structured audit, scores each section, and produces a fully rewritten version optimized for search visibility and install conversion.
