@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">Skills social preview</title>
+  <desc id="desc">Social preview image for the Skills repository.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="55%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#fb7185" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1220" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#111827" stop-opacity="0.75" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#020617" flood-opacity="0.35" />
+    </filter>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="#94a3b8" stroke-opacity="0.11" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)" />
+  <rect width="1280" height="640" fill="url(#grid)" />
+
+  <circle cx="1170" cy="90" r="180" fill="#f59e0b" fill-opacity="0.10" />
+  <circle cx="1040" cy="540" r="160" fill="#fb7185" fill-opacity="0.12" />
+  <circle cx="180" cy="80" r="120" fill="#38bdf8" fill-opacity="0.10" />
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="76" width="1136" height="488" rx="28" fill="url(#panel)" stroke="#e2e8f0" stroke-opacity="0.16" />
+  </g>
+
+  <rect x="112" y="116" width="142" height="34" rx="17" fill="#f8fafc" fill-opacity="0.1" stroke="#f8fafc" stroke-opacity="0.18" />
+  <text x="183" y="138" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="1.8" fill="#f8fafc">SKILLS</text>
+
+  <text x="112" y="234" font-family="Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#f8fafc">GitHub + WordPress</text>
+  <text x="112" y="316" font-family="Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#f8fafc">workflow skills</text>
+
+  <rect x="113" y="348" width="444" height="8" rx="4" fill="url(#accent)" />
+
+  <text x="112" y="410" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#cbd5e1">
+    Audit repositories. Improve profiles. Ship WordPress plugin automation.
+  </text>
+  <text x="112" y="454" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#cbd5e1">
+    Structured prompts, references, evals, and release-ready skill bundles.
+  </text>
+
+  <g transform="translate(786 146)">
+    <rect x="0" y="0" width="338" height="308" rx="24" fill="#020617" fill-opacity="0.58" stroke="#e2e8f0" stroke-opacity="0.12" />
+
+    <rect x="28" y="30" width="118" height="28" rx="14" fill="#f59e0b" fill-opacity="0.16" />
+    <text x="87" y="49" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4" fill="#fcd34d">INCLUDED</text>
+
+    <g font-family="Helvetica, Arial, sans-serif" fill="#f8fafc">
+      <text x="28" y="100" font-size="29" font-weight="700">GitHub Repo</text>
+      <text x="28" y="144" font-size="29" font-weight="700">GitHub Profile</text>
+      <text x="28" y="188" font-size="29" font-weight="700">WP GitHub Actions</text>
+      <text x="28" y="232" font-size="29" font-weight="700">WP Readme</text>
+    </g>
+
+    <g fill="#94a3b8">
+      <circle cx="286" cy="91" r="9" />
+      <circle cx="286" cy="135" r="9" />
+      <circle cx="286" cy="179" r="9" />
+      <circle cx="286" cy="223" r="9" />
+    </g>
+
+    <text x="28" y="279" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#cbd5e1">
+      Standalone fork distribution
+    </text>
+  </g>
+
+  <text x="112" y="532" font-family="Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#94a3b8">
+    github.com/dknauss/skills
+  </text>
+</svg>
