@@ -1,21 +1,27 @@
 # Skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Markdown Lint](https://github.com/jdevalk/skills/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/jdevalk/skills/actions/workflows/markdown-lint.yml)
-[![Link Check](https://github.com/jdevalk/skills/actions/workflows/link-check.yml/badge.svg)](https://github.com/jdevalk/skills/actions/workflows/link-check.yml)
-[![Validate Skills](https://github.com/jdevalk/skills/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/jdevalk/skills/actions/workflows/validate-skills.yml)
+[![Markdown Lint](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml)
+[![Link Check](https://github.com/dknauss/skills/actions/workflows/link-check.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/link-check.yml)
+[![Validate Skills](https://github.com/dknauss/skills/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/validate-skills.yml)
 
-Skills that optimize your GitHub presence and WordPress plugins readme and GitHub actions. Audit and improve your GitHub repos and profile pages, set up CI/CD pipelines for WordPress plugins, and rewrite WordPress.org readme files for better search rankings and conversions — all through structured, score-based workflows that produce drop-in replacements.
+Standalone skill pack for GitHub and WordPress workflows. This repository is maintained as its own public distribution while acknowledging the original upstream project at [jdevalk/skills](https://github.com/jdevalk/skills).
 
 ## Installation
 
-Download the `.skill` file for the skill you want from the [latest release](https://github.com/jdevalk/skills/releases/latest) and open it — Claude will install it automatically. Alternatively, copy the skill folder into your Claude skills directory.
+Download the `.skill` file you want from the [latest release in this repository](https://github.com/dknauss/skills/releases/latest) and open it in Claude, or copy the skill directory into your local skills folder.
 
-## What's included
+## Project Status
 
-### 🔧 GitHub Repo Optimizer
+- This repository ships its own releases and CI workflows.
+- The content was originally forked from [jdevalk/skills](https://github.com/jdevalk/skills) and may diverge over time.
+- Validation covers skill frontmatter, linked support files, and bundled eval fixtures before release packaging.
 
-Audits a GitHub repository against best practices and generates the files that make a repo look professional: README, CONTRIBUTING.md, SECURITY.md, issue/PR templates, and more. Scores six categories out of 60 and produces drop-in replacements for anything that's missing or weak.
+## What's Included
+
+### GitHub Repo Optimizer
+
+Audits a GitHub repository against best practices and generates the files that make a repo look professional: `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, issue and PR templates, and related community files.
 
 **Trigger phrases:** *"improve my repo"*, *"set up issue templates"*, *"make my GitHub project look professional"*
 
@@ -32,9 +38,9 @@ Audits a GitHub repository against best practices and generates the files that m
 
 </details>
 
-### 👤 GitHub Profile Optimizer
+### GitHub Profile Optimizer
 
-Audits a GitHub profile page — bio, pinned repos, profile README, stats widgets, contribution visibility — and generates an optimized profile README. Works for both personal and organization profiles.
+Audits a GitHub profile page, scores the visible profile surface, and generates an optimized profile README for either personal or organization profiles.
 
 **Trigger phrases:** *"make my GitHub look good"*, *"create a profile README"*, *"optimize my developer profile"*
 
@@ -49,9 +55,9 @@ Audits a GitHub profile page — bio, pinned repos, profile README, stats widget
 
 </details>
 
-### ⚙️ WordPress GitHub Actions
+### WordPress GitHub Actions
 
-Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. Analyzes your plugin's structure (Composer, JS/CSS assets, tests, WordPress.org listing) and creates the right set of workflows: coding standards (WPCS/PHPCS), PHP and JS/CSS linting, PHPUnit testing, PHPStan static analysis, Composer security scanning, WordPress Playground PR previews, and automated deployment to WordPress.org.
+Sets up GitHub Actions CI/CD pipelines for WordPress plugins, including code quality checks, testing, static analysis, previews, and deployment guidance.
 
 **Trigger phrases:** *"add CI to my WordPress plugin"*, *"set up GitHub Actions for my plugin"*, *"deploy my plugin to WordPress.org automatically"*
 
@@ -59,16 +65,16 @@ Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. Analyzes
 <summary><strong>Sources</strong></summary>
 
 - Joost de Valk — [GitHub Actions to keep your WordPress plugin healthy](https://joost.blog/github-actions-wordpress/)
-- [10up/wpcs-action](https://github.com/10up/wpcs-action) — WordPress Coding Standards GitHub Action
-- [10up/action-wordpress-plugin-deploy](https://github.com/10up/action-wordpress-plugin-deploy) — Deploy to WordPress.org
-- [WordPress/action-wp-playground-pr-preview](https://github.com/WordPress/action-wp-playground-pr-preview) — Playground PR previews
+- [10up/wpcs-action](https://github.com/10up/wpcs-action)
+- [10up/action-wordpress-plugin-deploy](https://github.com/10up/action-wordpress-plugin-deploy)
+- [WordPress/action-wp-playground-pr-preview](https://github.com/WordPress/action-wp-playground-pr-preview)
 - WordPress Developer Blog — [How to add automated unit tests to your WordPress plugin](https://developer.wordpress.org/news/2025/12/how-to-add-automated-unit-tests-to-your-wordpress-plugin/)
 
 </details>
 
-### 📝 WordPress Readme Optimizer
+### WordPress Readme Optimizer
 
-Reviews a WordPress.org plugin `readme.txt` with a structured audit, scores each section, and produces a fully rewritten version optimized for search visibility and install conversion.
+Reviews a WordPress.org plugin `readme.txt`, scores each section, and produces a rewritten version aimed at stronger search visibility and better install conversion.
 
 **Trigger phrases:** *"optimize my readme"*, *"review my plugin listing"*, *"make my plugin page better"*
 
@@ -82,6 +88,14 @@ Reviews a WordPress.org plugin `readme.txt` with a structured audit, scores each
 - SitePoint — [How To Create an Awesome WordPress Page for Your Plugin](https://www.sitepoint.com/create-awesome-wordpress-org-page-plugin/)
 
 </details>
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local validation, review expectations, and release hygiene.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for private reporting instructions. Do not use public issues for security reports.
 
 ## License
 

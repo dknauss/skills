@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Support and usage questions
+    url: https://github.com/dknauss/skills/blob/main/SUPPORT.md
+    about: Start here for documentation, installation, and usage help.
+  - name: Security policy
+    url: https://github.com/dknauss/skills/blob/main/SECURITY.md
+    about: Use the private reporting path for vulnerabilities.
