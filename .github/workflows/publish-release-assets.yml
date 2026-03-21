@@ -1,4 +1,4 @@
-name: Release Skills
+name: Publish Release Assets
 
 on:
   workflow_dispatch:
@@ -17,29 +17,27 @@ on:
         required: false
         default: false
         type: boolean
-  release:
-    types: [published]
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.target_commitish || github.event.release.target_commitish || github.sha }}
+          ref: ${{ inputs.target_commitish }}
 
       - name: Build .skill files
         run: bash .github/scripts/build-skill-archives.sh dist
 
-      - name: Upload to release
+      - name: Upload release assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CREATE_RELEASE_IF_MISSING: ${{ inputs.create_release_if_missing || 'false' }}
+          CREATE_RELEASE_IF_MISSING: ${{ inputs.create_release_if_missing }}
         run: |
           bash .github/scripts/publish-release-assets.sh \
-            "${{ inputs.tag_name || github.event.release.tag_name }}" \
+            "${{ inputs.tag_name }}" \
             dist \
-            "${{ inputs.target_commitish || github.event.release.target_commitish || github.sha }}"
+            "${{ inputs.target_commitish }}"
