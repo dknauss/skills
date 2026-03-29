@@ -1,5 +1,7 @@
 # Skills
 
+> **Note:** The canonical source for all WordPress agent skills is [dknauss/agent-skills](https://github.com/dknauss/agent-skills) (fork of [WordPress/agent-skills](https://github.com/WordPress/agent-skills)). The skills in this repo have been migrated there. This repo is maintained as a public fork of [jdevalk/skills](https://github.com/jdevalk/skills) but is no longer the primary distribution point.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Markdown Lint](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml)
 [![Link Check](https://github.com/dknauss/skills/actions/workflows/link-check.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/link-check.yml)
