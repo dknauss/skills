@@ -5,7 +5,7 @@
 [![Link Check](https://github.com/jdevalk/skills/actions/workflows/link-check.yml/badge.svg)](https://github.com/jdevalk/skills/actions/workflows/link-check.yml)
 [![Validate Skills](https://github.com/jdevalk/skills/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/jdevalk/skills/actions/workflows/validate-skills.yml)
 
-Skills that optimize your GitHub presence, WordPress plugins, and EmDash plugins. Audit and improve your GitHub repos and profile pages, set up CI/CD pipelines for WordPress and EmDash plugins, and rewrite WordPress.org readme files for better search rankings and conversions — all through structured, score-based workflows that produce drop-in replacements.
+This repository collects Claude Code skills that improve your GitHub presence, WordPress plugins, and EmDash plugins. You can audit and improve your GitHub repos and profile pages, set up CI/CD pipelines, and rewrite WordPress.org readme files for better search rankings and conversions. Each skill is a structured, score-based workflow that produces drop-in replacements.
 
 ## Installation
 
@@ -34,7 +34,7 @@ Audits a GitHub repository against best practices and generates the files that m
 
 ### 👤 GitHub Profile Optimizer
 
-Audits a GitHub profile page — bio, pinned repos, profile README, stats widgets, contribution visibility — and generates an optimized profile README. Works for both personal and organization profiles.
+Reviews a GitHub profile page — bio, pinned repos, profile README, stats widgets, contribution visibility — and generates an optimized profile README. Works for both personal and organization profiles.
 
 **Trigger phrases:** *"make my GitHub look good"*, *"create a profile README"*, *"optimize my developer profile"*
 
@@ -51,7 +51,14 @@ Audits a GitHub profile page — bio, pinned repos, profile README, stats widget
 
 ### ⚙️ WordPress GitHub Actions
 
-Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. Analyzes your plugin's structure (Composer, JS/CSS assets, tests, WordPress.org listing) and creates the right set of workflows: coding standards (WPCS/PHPCS), PHP and JS/CSS linting, PHPUnit testing, PHPStan static analysis, Composer security scanning, WordPress Playground PR previews, and automated deployment to WordPress.org.
+Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. The skill analyzes your plugin's structure — Composer, JS/CSS assets, tests, WordPress.org listing — and picks the workflows you need. Coverage includes:
+
+- Coding standards (WPCS/PHPCS)
+- PHP and JS/CSS linting
+- PHPUnit testing and PHPStan static analysis
+- Composer security scanning
+- WordPress Playground PR previews
+- Automated deployment to WordPress.org
 
 **Trigger phrases:** *"add CI to my WordPress plugin"*, *"set up GitHub Actions for my plugin"*, *"deploy my plugin to WordPress.org automatically"*
 
@@ -68,7 +75,13 @@ Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. Analyzes
 
 ### 🔷 EmDash GitHub Actions
 
-Sets up GitHub Actions CI/CD workflows for EmDash plugins. Analyzes your plugin's structure (TypeScript source, React admin UI, tests, npm publishing) and creates the right set of workflows: TypeScript type-checking with `emdash` types, ESLint linting, Vitest testing, npm security auditing, and automated npm publishing on release.
+Sets up GitHub Actions CI/CD workflows for EmDash plugins. The skill analyzes your plugin's structure — TypeScript source, React admin UI, tests, npm publishing — and picks the workflows you need. Coverage includes:
+
+- TypeScript type-checking with `emdash` types
+- ESLint linting
+- Vitest testing
+- npm security auditing
+- Automated npm publishing on release
 
 **Trigger phrases:** *"add CI to my EmDash plugin"*, *"set up GitHub Actions for my EmDash plugin"*, *"publish my EmDash plugin to npm automatically"*
 
@@ -95,6 +108,33 @@ Reviews a WordPress.org plugin `readme.txt` with a structured audit, scores each
 - Freemius — [A Guide to Optimizing Your Plugin's WordPress.org Page](https://freemius.com/blog/optimizing-plugin-wordpress-page/)
 - WordPress Plugin Handbook — [How Your Plugin Assets Work](https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/)
 - SitePoint — [How To Create an Awesome WordPress Page for Your Plugin](https://www.sitepoint.com/create-awesome-wordpress-org-page-plugin/)
+
+</details>
+
+### 📖 Readability Check
+
+Runs a readability audit on a blog post draft, calibrated for readers who read English as a second language. The skill checks nine categories:
+
+- Paragraph structure and lead sentences
+- Opening paragraph strength
+- Tiered sentence length
+- Passive voice
+- Difficult words (judged by L2 conversational use, not syllable count)
+- Filler and hedging
+- Transitions
+- Variation
+- Heading hierarchy
+
+Output combines a Flesch Reading Ease score (with target bands) and a per-category status. Each issue quotes the problem text with a concrete fix, and specific passages that work get called out too. In technical posts, the skill holds non-technical paragraphs — intros, context, conclusions — to a stricter L2 standard than the technical sections.
+
+**Trigger phrases:** *"check readability"*, *"is this readable"*, *"readability pass"*
+
+<details>
+<summary><strong>Sources</strong></summary>
+
+- Yoast — [Readability analysis in Yoast SEO](https://yoast.com/readability-analysis-checks/)
+- Rudolf Flesch — [Flesch Reading Ease formula](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)
+- Hemingway Editor — sentence-length tiering
 
 </details>
 
