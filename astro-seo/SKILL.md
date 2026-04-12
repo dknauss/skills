@@ -120,11 +120,9 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 
 ### 9. Build-time validation and content quality (/10)
 
-- `seoGraph()` integration running on each build?
-- H1 validation enabled (warns on zero or multiple `<h1>` per page)?
-- Duplicate title/description detection across built pages?
-- JSON-LD schema validation on every page?
-- Content pieces audited for readability — lead sentences per paragraph, sentences under 20 words, transitions? (This is where we'll chain in `readability-check`.)
+- **Must** — `seoGraph()` integration running on each build with H1 validation, duplicate title/description detection, and JSON-LD schema validation enabled.
+- **Should** — broken link checker in CI. A [lychee](https://github.com/lycheeverse/lychee-action) GitHub Action on every push to content files catches dead links before they go live; a weekly scheduled run catches link rot as external sites move or disappear. Broken outbound links are a bad UX and a negative trust signal.
+- **Should** — content audited for readability (lead sentences, sentences under 20 words, transitions). Phase 2.5 chains this in via `readability-check`.
 
 ---
 
@@ -276,6 +274,35 @@ Syntax depends on the host. Pick the one matching Phase 0's detected deployment 
 ```
 
 **Other hosts** — configure equivalents in server config; syntax varies.
+
+### Broken link checker in CI
+
+Add a [lychee](https://github.com/lycheeverse/lychee-action) workflow at `.github/workflows/link-check.yml`:
+
+```yaml
+name: Link Check
+on:
+  push:
+    paths:
+      - 'src/content/**'
+      - 'src/pages/**'
+      - '*.md'
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly, Mondays 09:00 UTC — catches link rot
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress './**/*.md' './**/*.astro' './**/*.mdx'
+          fail: true
+```
+
+Push-triggered runs block broken links from shipping. The weekly run catches external link rot.
 
 ---
 
