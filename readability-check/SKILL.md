@@ -1,3 +1,17 @@
+---
+name: readability-check
+description: >
+  Runs a readability audit on a blog post draft, calibrated for readers who read
+  English as a second language. Checks nine categories — paragraph structure,
+  opening paragraph strength, tiered sentence length, passive voice, difficult
+  words, filler and hedging, transitions, variation, and heading hierarchy —
+  and reports a Flesch Reading Ease score with a per-category status. Use when
+  the user asks to check readability, run a readability pass, or asks "is this
+  readable", or proactively as a second pass after a substantial draft is
+  complete. Also invoked by the github-repo, github-profile, and
+  wp-readme-optimizer skills on their generated prose.
+---
+
 # Readability check
 
 Run a readability audit on a blog post draft. Use when the user asks to check readability ("check readability", "readability pass", "is this readable"), or proactively after a substantial draft is complete — as a second pass after the blog-drafting skill's critical read, not during active drafting.
@@ -104,7 +118,7 @@ Flesch is mechanical and misses paragraph-level issues, but it's an objective an
 
 ## Output format
 
-```
+```markdown
 ## Readability audit: [post title]
 
 ### Score

@@ -132,7 +132,7 @@ Output combines a Flesch Reading Ease score (with target bands) and a per-catego
 <details>
 <summary><strong>Sources</strong></summary>
 
-- Yoast — [Readability analysis in Yoast SEO](https://yoast.com/readability-analysis-checks/)
+- Yoast — [Readability analysis in Yoast SEO](https://yoast.com/features/readability-analysis/)
 - Rudolf Flesch — [Flesch Reading Ease formula](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)
 - Hemingway Editor — sentence-length tiering
 
