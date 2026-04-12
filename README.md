@@ -111,6 +111,23 @@ Reviews a WordPress.org plugin `readme.txt` with a structured audit, scores each
 
 </details>
 
+### 🚀 Astro SEO
+
+Audits and improves SEO for Astro sites across nine categories: the `<Seo>` component and head metadata, linked JSON-LD graphs, content-collection Zod schemas, auto-generated Open Graph images, per-collection sitemaps with git-based lastmod, IndexNow submission, schema endpoints and schema maps for agent discovery, redirects and `FuzzyRedirect`, and performance defaults. The stack is opinionated and routes most fixes through [`@jdevalk/astro-seo-graph`](https://github.com/jdevalk/seo-graph).
+
+**Trigger phrases:** *"audit my Astro SEO"*, *"set up SEO for my Astro site"*, *"add structured data to my Astro blog"*
+
+<details>
+<summary><strong>Sources</strong></summary>
+
+- Joost de Valk — [Astro SEO: the definitive guide](https://joost.blog/astro-seo-complete-guide/)
+- [`@jdevalk/astro-seo-graph`](https://github.com/jdevalk/seo-graph) — the `<Seo>` component, schema endpoints, IndexNow, FuzzyRedirect, build validation
+- [`@astrojs/sitemap`](https://docs.astro.build/en/guides/integrations-guide/sitemap/) — per-collection sitemaps
+- [IndexNow](https://www.indexnow.org/) — active indexing protocol
+- [NLWeb](https://github.com/nlweb-ai/NLWeb) — agent discovery protocol
+
+</details>
+
 ### 📖 Readability Check
 
 Runs a readability audit on a blog post draft, calibrated for readers who read English as a second language. The skill checks nine categories:
