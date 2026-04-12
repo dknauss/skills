@@ -20,5 +20,5 @@ jobs:
 
       - uses: lycheeverse/lychee-action@v2.8.0
         with:
-          args: --no-progress './**/*.md'
+          args: --no-progress --header 'accept=text/html,*/*' './**/*.md'
           fail: true
