@@ -236,6 +236,14 @@ Remind the user to **verify their organization's domain** (Settings → Verified
 
 ---
 
+## Phase 2.5: Readability pass
+
+Before moving to recommendations, run a readability pass on the generated profile README by invoking the `readability-check` skill. Profile READMEs are short and heavily skimmed — a single long or passive sentence in the bio or "What I'm working on" section stands out more than in a long document.
+
+Apply the fixes the skill flags as ⚠ or ✗ directly in the README. Pay particular attention to: (1) the bio / opening line, which carries disproportionate weight; (2) the first sentence of each section, since the profile is read by skimming; (3) passive voice, which reads especially flat in first-person content.
+
+---
+
 ## Phase 3: Recommendations
 
 Beyond the README, provide specific recommendations for:

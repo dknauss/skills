@@ -112,6 +112,7 @@ main() {
   local skill
 
   for skill in */SKILL.md; do
+    local before=$status
     validate_skill_frontmatter "$skill"
     validate_skill_references "$skill"
 
@@ -122,7 +123,9 @@ main() {
       validate_evals_json "${skill_dir}/evals/evals.json"
     fi
 
-    info "Validated ${skill}"
+    if [[ $status -eq $before ]]; then
+      info "Validated ${skill}"
+    fi
   done
 
   exit "$status"

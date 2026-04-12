@@ -37,7 +37,7 @@ If you do not have those tools installed locally, rely on GitHub Actions for fin
 - Match the `name:` field in each `SKILL.md` to the containing directory name.
 - Keep referenced files relative to the skill directory and ensure they exist.
 - Prefer concrete instructions over generic advice.
-- Update eval fixtures when behavior or expected outputs change.
+- Update eval fixtures when behavior or expected outputs change. Evals are encouraged but not required for every skill.
 
 ## Pull Requests
 

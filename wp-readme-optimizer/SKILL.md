@@ -158,6 +158,14 @@ Rules for the rewrite:
 
 ---
 
+## Phase 2.5: Readability pass
+
+After producing the rewritten readme.txt, run a readability pass on its prose sections by invoking the `readability-check` skill. Run it on the short description and the long description; skip the headers block, changelog, and installation steps (lists, not prose).
+
+The WordPress.org audience is global — a large share of plugin users read English as a second language, which is exactly the calibration the readability skill uses. Apply the fixes the skill flags as ⚠ or ✗ directly in the rewritten readme before presenting it. Pay particular attention to: (1) the short description, where every word counts for both search and conversion; (2) the first paragraph of the long description, which is the install-decision paragraph; (3) FAQ answers, where long sentences bury the answer.
+
+---
+
 ## Format Reference
 
 ```text
