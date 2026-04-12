@@ -276,6 +276,14 @@ Adapt the fields to the specific project type (e.g., a CLI tool wouldn't ask for
 
 ---
 
+## Phase 2.5: Readability pass
+
+Before verifying, run a readability pass on every prose-heavy file you generated or rewrote — at minimum the README, but also CONTRIBUTING.md and SECURITY.md if you produced them. Invoke the `readability-check` skill on each file.
+
+Apply the fixes it flags as ⚠ or ✗ directly in the generated file. You don't need to reach a perfect Flesch score; the goal is that the README doesn't fail obvious checks (very long sentences, passive voice stacks, missing lead sentences, opening paragraph that doesn't state what the project is). Skim the report, apply the concrete fixes, move on. Skip the pass for code-heavy files (issue templates, workflow YAML) where the readability checks don't apply.
+
+---
+
 ## Phase 3: Verify
 
 After generating files:
