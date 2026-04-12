@@ -9,8 +9,11 @@ body:
     attributes:
       label: Affected area
       options:
+        - astro-seo
+        - emdash-github-actions
         - github-profile
         - github-repo
+        - readability-check
         - wp-github-actions
         - wp-readme-optimizer
         - Repository infrastructure
