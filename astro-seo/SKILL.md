@@ -99,6 +99,7 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 
 - **Should** — schema endpoints (`/schema/*.json`) exposing corpus-wide JSON-LD.
 - **Should** — schema map (`/schemamap.xml`) listing all endpoints, with `Schemamap:` directive in `robots.txt`.
+- **Should** — [`llms.txt`](https://llmstxt.org) at the site root listing pages (title + description) for LLM consumers. `@jdevalk/astro-seo-graph` ≥ 0.9.0 generates this via the `llmsTxt` integration option.
 - **Nice** — `<link rel="nlweb">` pointing to a conversational endpoint. NLWeb is early; the tag is one line and worth having, but it's not a scoring blocker in 2026.
 
 ### 7. Performance (/10)
@@ -166,6 +167,7 @@ export default defineConfig({
                 host: 'example.com',
                 siteUrl: 'https://example.com',
             },
+            llmsTxt: true,
         }),
     ],
 });
@@ -226,6 +228,10 @@ Stand up `/og/[...slug].jpg` using satori + sharp. If the project already has on
 ### Schema endpoints and schema map
 
 Each endpoint collects every entry in a content collection, builds the JSON-LD graph per entry, and serves the combined result as `application/ld+json`. Don't hand-write the mapper — the full implementation with entity builders (`buildWebPage`, `buildArticle`, etc.) and their expected arguments is documented in the [`astro-seo-graph` schema endpoints docs](https://github.com/jdevalk/seo-graph/tree/main/packages/astro-seo-graph#schema-endpoints). Copy from there. Then add `/schemamap.xml` listing every endpoint, and a `Schemamap:` directive in `robots.txt`.
+
+### `llms.txt`
+
+Enable the `llmsTxt` option on the `seoGraph()` integration (requires `@jdevalk/astro-seo-graph` ≥ 0.9.0). It writes `llms.txt` at the root of the build output by auto-collecting `<title>` + meta description from each built page. Pass `sections` to curate manually, or use `filter` / `autoSectionName` / `outputPath` to tune the auto-generated output. For rendering outside the integration hook, import `renderLlmsTxt` from the package.
 
 ### RSS feed
 
