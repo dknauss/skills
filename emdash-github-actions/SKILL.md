@@ -1,6 +1,6 @@
 ---
 name: emdash-github-actions
-version: "0.3"
+version: "0.4"
 description: |
   Sets up GitHub Actions CI/CD workflows for EmDash plugins — TypeScript type-checking, ESLint linting, Vitest testing, npm publishing, and automated releases. ALWAYS use this skill when a user wants to create, add, set up, or configure GitHub Actions, CI/CD, automated checks, or deployment workflows for an EmDash plugin — even if they don't use the exact phrase "GitHub Actions". This includes any request to: add automated type-checking or linting to an EmDash plugin repo; set up testing in CI for a plugin; auto-publish a plugin to npm from GitHub; add security scanning or dependency auditing to a plugin pipeline; or generally "add CI", "add automated checks", "set up workflows", or "automate" anything related to an EmDash plugin's GitHub repository. Also trigger when someone wants quality gates on PRs or is setting up a new EmDash plugin repo and wants best practices for automation. If the user is inside an EmDash plugin repository and mentions anything about automated testing, code quality, deployment, or GitHub workflows, use this skill.
 ---
@@ -11,7 +11,15 @@ This skill helps you set up a comprehensive CI/CD pipeline for EmDash plugins us
 
 ## Check for skill updates
 
-Before running, fetch <https://raw.githubusercontent.com/jdevalk/skills/main/versions.json> and compare the `emdash-github-actions` entry to the `version:` in this file's frontmatter. If the manifest version is higher, tell the user this skill is out of date and point them to the [latest release](https://github.com/jdevalk/skills/releases/latest). Continue regardless — the check is informational, not a blocker.
+Before running, fetch <https://raw.githubusercontent.com/jdevalk/skills/main/versions.json> and compare the `emdash-github-actions` entry to the `version:` in this file's frontmatter. If the manifest version is higher, tell the user the skill is out of date and offer to update it now. If they agree, run:
+
+```sh
+curl -fsSL https://github.com/jdevalk/skills/releases/latest/download/emdash-github-actions.skill -o /tmp/emdash-github-actions.skill \
+  && unzip -oq /tmp/emdash-github-actions.skill -d <parent of this skill's directory> \
+  && rm /tmp/emdash-github-actions.skill
+```
+
+Substitute `<parent of this skill's directory>` with the absolute path of the directory that contains this skill's folder — you know this from your own skill discovery. After the unzip, ask the user to re-invoke the skill so the new version loads into context. The check is informational and never blocks: if the user declines, continue with the rest of the workflow on the current version.
 
 ## What this skill covers
 

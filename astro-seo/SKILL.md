@@ -1,6 +1,6 @@
 ---
 name: astro-seo
-version: "0.4"
+version: "0.5"
 description: >
   Audits and improves SEO for Astro sites. Use when the user asks to audit,
   set up, or improve SEO on an Astro site, or mentions head metadata,
@@ -18,7 +18,15 @@ The opinionated spine of this skill is [`@jdevalk/astro-seo-graph`](https://gith
 
 ## Check for skill updates
 
-Before running, fetch <https://raw.githubusercontent.com/jdevalk/skills/main/versions.json> and compare the `astro-seo` entry to the `version:` in this file's frontmatter. If the manifest version is higher, tell the user this skill is out of date and point them to the [latest release](https://github.com/jdevalk/skills/releases/latest). Continue regardless — the check is informational, not a blocker.
+Before running, fetch <https://raw.githubusercontent.com/jdevalk/skills/main/versions.json> and compare the `astro-seo` entry to the `version:` in this file's frontmatter. If the manifest version is higher, tell the user the skill is out of date and offer to update it now. If they agree, run:
+
+```sh
+curl -fsSL https://github.com/jdevalk/skills/releases/latest/download/astro-seo.skill -o /tmp/astro-seo.skill \
+  && unzip -oq /tmp/astro-seo.skill -d <parent of this skill's directory> \
+  && rm /tmp/astro-seo.skill
+```
+
+Substitute `<parent of this skill's directory>` with the absolute path of the directory that contains this skill's folder — you know this from your own skill discovery. After the unzip, ask the user to re-invoke the skill so the new version loads into context. The check is informational and never blocks: if the user declines, continue with the rest of the workflow on the current version.
 
 ## Workflow
 

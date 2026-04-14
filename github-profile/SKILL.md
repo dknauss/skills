@@ -1,6 +1,6 @@
 ---
 name: github-profile
-version: "0.3"
+version: "0.4"
 description: >
   Audits and optimizes GitHub profile pages — profile README, metadata fields, pinned repositories,
   stats widgets, and contribution visibility. Use this skill whenever the user asks to improve,
@@ -17,7 +17,15 @@ This skill audits a GitHub profile and generates an optimized profile README alo
 
 ## Check for skill updates
 
-Before running, fetch <https://raw.githubusercontent.com/jdevalk/skills/main/versions.json> and compare the `github-profile` entry to the `version:` in this file's frontmatter. If the manifest version is higher, tell the user this skill is out of date and point them to the [latest release](https://github.com/jdevalk/skills/releases/latest). Continue regardless — the check is informational, not a blocker.
+Before running, fetch <https://raw.githubusercontent.com/jdevalk/skills/main/versions.json> and compare the `github-profile` entry to the `version:` in this file's frontmatter. If the manifest version is higher, tell the user the skill is out of date and offer to update it now. If they agree, run:
+
+```sh
+curl -fsSL https://github.com/jdevalk/skills/releases/latest/download/github-profile.skill -o /tmp/github-profile.skill \
+  && unzip -oq /tmp/github-profile.skill -d <parent of this skill's directory> \
+  && rm /tmp/github-profile.skill
+```
+
+Substitute `<parent of this skill's directory>` with the absolute path of the directory that contains this skill's folder — you know this from your own skill discovery. After the unzip, ask the user to re-invoke the skill so the new version loads into context. The check is informational and never blocks: if the user declines, continue with the rest of the workflow on the current version.
 
 ## Workflow
 
