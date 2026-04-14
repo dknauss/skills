@@ -5,7 +5,7 @@
 [![Link Check](https://github.com/jdevalk/skills/actions/workflows/link-check.yml/badge.svg)](https://github.com/jdevalk/skills/actions/workflows/link-check.yml)
 [![Validate Skills](https://github.com/jdevalk/skills/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/jdevalk/skills/actions/workflows/validate-skills.yml)
 
-This repository collects Claude Code skills that improve your GitHub presence, WordPress plugins, EmDash plugins, Astro sites, and the readability of your writing. You can audit and improve GitHub repos and profile pages, set up CI/CD pipelines for WordPress and EmDash plugins, rewrite WordPress.org readme files for better search rankings, audit Astro site SEO end-to-end, and run a readability pass on drafts. Each skill is a structured, score-based workflow that produces drop-in replacements.
+This repository collects agent skills that improve your GitHub presence, WordPress plugins, EmDash plugins, Astro sites, and the readability of your writing. You can audit and improve GitHub repos and profile pages, set up CI/CD pipelines for WordPress and EmDash plugins, rewrite WordPress.org readme files for better search rankings, audit Astro site SEO end-to-end, and run a readability pass on drafts. Each skill is a structured, score-based workflow that produces drop-in replacements.
 
 ## Installation
 
