@@ -1,6 +1,6 @@
 ---
 name: astro-seo
-version: "0.5"
+version: "0.6"
 description: >
   Audits and improves SEO for Astro sites. Use when the user asks to audit,
   set up, or improve SEO on an Astro site, or mentions head metadata,
@@ -114,6 +114,7 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 - **Should** — schema endpoints (`/schema/*.json`) exposing corpus-wide JSON-LD.
 - **Should** — schema map (`/schemamap.xml`) listing all endpoints, with `Schemamap:` directive in `robots.txt`.
 - **Should** — [`llms.txt`](https://llmstxt.org) at the site root listing pages (title + description) for LLM consumers. `@jdevalk/astro-seo-graph` ≥ 0.9.0 generates this via the `llmsTxt` integration option.
+- **Should** — markdown-alternate URLs (`/blog/post.md` next to `/blog/post/`) serving clean markdown with YAML frontmatter for AI agents to consume without HTML parsing. `@jdevalk/astro-seo-graph` ≥ 1.2.0 ships `createMarkdownEndpoint` for the route and a `markdownAlternate: true` integration option that emits `<link rel="alternate" type="text/markdown">` on every page. Pair with Cloudflare Transform Rules (URL rewrite + `Vary: Accept`) for content negotiation on `Accept: text/markdown` without needing SSR.
 - **Nice** — `<link rel="nlweb">` pointing to a conversational endpoint. NLWeb is early; the tag is one line and worth having, but it's not a scoring blocker in 2026.
 
 ### 7. Performance (/10)
@@ -136,9 +137,7 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 ### 9. Build-time validation and content quality (/10)
 
 - **Must** — `seoGraph()` integration running on each build with `validateH1` and `validateUniqueMetadata` enabled. For JSON-LD validation, pass `warnOnDanglingReferences: true` to `assembleGraph()` in `seo-graph-core` — that's the assembly-time check, not an integration option.
-- **Should** — `validateImageAlt`, `validateMetadataLength`, and `validateInternalLinks` enabled on `seoGraph()` (all default `true` in ≥ 1.1.0). They catch missing alt text, titles or descriptions outside SERP bounds (defaults: title 30–65, description 70–200), and internal links that 404 or hit a trailing-slash mismatch. Two known rough edges worth flagging up front:
-  - **`validateInternalLinks` only knows about built HTML pages.** Links to `public/` assets (`/images/foo.avif`, `/fonts/inter.woff2`) get flagged as 404. Use the `skip` callback to exclude them (see the config example above). Wildcards, splats, and `[slug]` routes also need `skip`.
-  - **`validateMetadataLength` can under-count descriptions containing a raw apostrophe.** Its extractor terminates early on `'`, yielding absurdly short lengths. Workaround: use typographic apostrophes (`’`) in copy — better typography regardless. Upstream bug.
+- **Should** — `validateImageAlt`, `validateMetadataLength`, and `validateInternalLinks` enabled on `seoGraph()` (all default `true` in ≥ 1.1.0). They catch missing alt text, titles or descriptions outside SERP bounds (defaults: title 30–65, description 70–200), and internal links that 404 or hit a trailing-slash mismatch. Upgrade to ≥ 1.1.1 if the project is on 1.1.0 — that patch release fixes two validator bugs: `validateInternalLinks` now recognises `public/` assets as valid targets (no more false positives on `/images/*` or `/fonts/*`), and `validateMetadataLength` no longer truncates descriptions containing a raw apostrophe. Use `skip` only for SSR-only routes, wildcards, and `[slug]` params.
 - **Should** — broken link checker in CI for _external_ links. A [lychee](https://github.com/lycheeverse/lychee-action) GitHub Action on every push to content files catches dead links before they go live; a weekly scheduled run catches link rot as external sites move or disappear. Broken outbound links are a bad UX and a negative trust signal. Internal links are covered by `validateInternalLinks` at build time; lychee handles everything else.
 - **Should** — content audited for readability (lead sentences, sentences under 20 words, transitions). Phase 2.5 chains this in via `readability-check`.
 
@@ -191,10 +190,10 @@ export default defineConfig({
             validateImageAlt: true,
             validateMetadataLength: true,
             validateInternalLinks: {
-                skip: (href) =>
-                    href.startsWith('/images/') ||
-                    href.startsWith('/fonts/') ||
-                    href.startsWith('/api/'),
+                // ≥ 1.1.1 recognises non-HTML files from public/ as valid
+                // link targets automatically. `skip` is still useful for
+                // SSR-only routes, wildcards, and `[slug]` params.
+                skip: (href) => href.startsWith('/api/'),
             },
             ...(isProductionBuild && {
                 indexNow: {
@@ -207,6 +206,11 @@ export default defineConfig({
                 title: 'Example',
                 siteUrl: 'https://example.com',
             },
+            // Emit <link rel="alternate" type="text/markdown"> on every
+            // page. Only enable once `createMarkdownEndpoint` is wired at
+            // the matching path (see Phase 2 § Markdown alternates),
+            // otherwise the link 404s. Requires ≥ 1.2.0.
+            markdownAlternate: true,
         }),
     ],
 });
@@ -324,6 +328,17 @@ Each endpoint collects every entry in a content collection, builds the JSON-LD g
 ### `llms.txt`
 
 Pass an options object to `llmsTxt` on the `seoGraph()` integration (requires `@jdevalk/astro-seo-graph` ≥ 0.9.0). Required fields: `title` (the H1 for the file) and `siteUrl` (used to resolve crawled HTML paths). Optional: `summary` (rendered as a blockquote), `details` (extra paragraphs), `sections` (user-supplied sections; when given, no pages are auto-collected), `filter` / `autoSectionName` / `outputPath` to tune the auto-generated output. For rendering outside the integration hook, import `renderLlmsTxt` from the package.
+
+### Markdown alternates
+
+Serve clean markdown copies of every page at a parallel `.md` URL for AI agents (Claude, ChatGPT, Perplexity, Cloudflare's crawlers) to consume without HTML parsing. Requires `@jdevalk/astro-seo-graph` ≥ 1.2.0. Two pieces:
+
+1. **The route.** Create `src/pages/[...slug].md.ts` (or whatever path shape you need) and export `createMarkdownEndpoint`. It serves a YAML frontmatter block (title, canonical, pubDate, updatedDate, author, description, tags, categories) followed by the markdown body, with `Content-Type: text/markdown; charset=utf-8`, `X-Robots-Tag: noindex, follow`, `X-Markdown-Tokens: <n>`, and a `Link: <canonical>; rel="canonical"` header pointing crawlers back at the HTML. Token count defaults to `chars/4`; swap in `gpt-tokenizer` or `@anthropic-ai/tokenizer` via `estimateTokens` for accuracy.
+2. **The discovery link.** Set `markdownAlternate: true` on the `seoGraph()` integration (see the config example above). `<Seo>` will emit `<link rel="alternate" type="text/markdown" href="…">` on every page, derived from the canonical (`/blog/post/` → `/blog/post.md`). **Only turn this on after the route is wired** at the matching path — otherwise the link 404s.
+
+**Content negotiation on a static host.** On Cloudflare Pages, add a Transform Rule that rewrites `Accept: text/markdown` requests to the `.md` path and responds with `Vary: Accept`, so the same URL serves HTML or markdown based on the client. No SSR or middleware. The `astro-seo-graph` README has the exact rule config; copy from there.
+
+For rendering outside the route, import `renderMarkdownAlternate` — pure renderer, same frontmatter + body + token-count output.
 
 ### RSS feed
 
