@@ -33,7 +33,7 @@ Each skill is self-contained: the folder holds a `SKILL.md` plus any referenced 
 
 ## Update checks
 
-Every skill carries a `version:` field in its frontmatter. On invocation, each skill fetches [`versions.json`](https://raw.githubusercontent.com/jdevalk/skills/main/versions.json) at the repo root and compares its own version to the manifest. If it's behind, it tells you and links to the [latest release](https://github.com/jdevalk/skills/releases/latest) — the check is informational and never blocks execution. CI validates that every SKILL.md's `version:` matches the `versions.json` entry for its directory, so the manifest and the shipped skills can't drift.
+Every skill carries a `version:` field in its frontmatter. On invocation, each skill fetches [`versions.json`](https://raw.githubusercontent.com/jdevalk/skills/main/versions.json) at the repo root and compares its own version to the manifest. If it's behind, the skill tells you and **offers to update itself**: with your consent, it downloads the matching `.skill` from the [latest release](https://github.com/jdevalk/skills/releases/latest) and unpacks it over the installed skill directory. The unpack target is resolved from where the running skill actually lives, so this works for any agent — not just Claude Code — as long as its skills directory is writable. Decline and the skill continues on the current version; the check never blocks execution. CI validates that every SKILL.md's `version:` matches the `versions.json` entry for its directory, so the manifest and the shipped skills can't drift.
 
 ## What's included
 
