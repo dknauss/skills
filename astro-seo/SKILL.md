@@ -99,7 +99,7 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 - **Must** — RSS feed exists (`@astrojs/rss`), advertised via `<link rel="alternate" type="application/rss+xml">`, contains full post content (not truncated excerpts).
 - **Should** — split per-collection via `chunks` option (`sitemap-posts-0.xml`, etc.) — much easier to debug indexing in GSC.
 - **Should** — `lastmod` populated from git commit timestamps, not frontmatter dates or CI file timestamps.
-- **Should** — IndexNow integrated and submitting on each build, with key verification route at `/[key].txt`. ≥ 1.0.1 excludes `/404` from submissions by default.
+- **Should** — IndexNow integrated and submitting on each build, with key verification route at `/[key].txt`. ≥ 1.0.1 excludes `/404` from submissions by default. **Gate submission on the production host** (e.g. `process.env.CF_PAGES === '1' && CF_PAGES_BRANCH === 'main'`, `VERCEL_ENV === 'production'`, `CONTEXT === 'production'`). Unconditional submission pings the endpoint on every local `npm run build` and preview deploy with URLs the production host hasn't served yet, which gets the key marked invalid (403) and forces rotation.
 
 ### 6. Agent discovery (/10)
 
@@ -166,6 +166,14 @@ Wire the integration:
 // astro.config.mjs
 import seoGraph from '@jdevalk/astro-seo-graph/integration';
 
+// Only submit to IndexNow on the production host. Local `npm run build`
+// and preview deploys should not ping the endpoint with URLs the host
+// hasn't served yet — that gets the key rejected (403) and forces rotation.
+const isProductionBuild =
+    process.env.CF_PAGES === '1' && process.env.CF_PAGES_BRANCH === 'main';
+    // Vercel: process.env.VERCEL_ENV === 'production'
+    // Netlify: process.env.CONTEXT === 'production'
+
 export default defineConfig({
     site: 'https://example.com',
     integrations: [
@@ -180,11 +188,13 @@ export default defineConfig({
                     href.startsWith('/fonts/') ||
                     href.startsWith('/api/'),
             },
-            indexNow: {
-                key: 'REPLACE_WITH_GENERATED_KEY',
-                host: 'example.com',
-                siteUrl: 'https://example.com',
-            },
+            ...(isProductionBuild && {
+                indexNow: {
+                    key: process.env.INDEXNOW_KEY,
+                    host: 'example.com',
+                    siteUrl: 'https://example.com',
+                },
+            }),
             llmsTxt: {
                 title: 'Example',
                 siteUrl: 'https://example.com',
@@ -399,11 +409,9 @@ Push-triggered runs block broken links from shipping. The weekly run catches ext
 
 ## Phase 2.5: Readability pass
 
-Invoke the `readability-check` skill on every piece of prose the skill generated or modified: page titles, meta descriptions, schema `description` fields, FAQ entries, and any blog post frontmatter `excerpt` values you wrote.
+Invoke the `readability-check` skill in **metadata mode** on every short string the skill generated or modified: page titles, meta descriptions, schema `description` fields, FAQ answers, and any blog post frontmatter `excerpt` values you wrote. Metadata mode skips Flesch and paragraph-level checks (they don't fit a 5-word title) and instead checks front-loading, concreteness, filler, active voice, title/description duplication, difficult words, SERP-truncation fit, and one-idea-per-field. Apply the ⚠ and ✗ fixes directly. Skip the pass entirely for technical strings (URLs, schema `@id` values, enum values).
 
-SEO titles and descriptions are short but consequential — a long passive opening sentence in a meta description wastes the 160 characters Google shows in results. Apply the ⚠ and ✗ fixes directly. Skip the pass for technical strings (URLs, schema `@id` values, enum values).
-
-If the project has a blog or docs content collection, note that the same `readability-check` skill can audit individual posts — mention this to the user as a follow-up, but don't audit the entire content corpus yourself.
+If the project has a blog or docs content collection, note that the same `readability-check` skill (in its default prose mode) can audit individual posts — mention this to the user as a follow-up, but don't audit the entire content corpus yourself.
 
 ---
 
