@@ -7,7 +7,7 @@ Use GitHub issues for questions about:
 - choosing the right skill
 - improving wording or examples
 - missing documentation
-- packaging or installation problems with published `.skill` files
+- installation problems via `npx skills add`
 
 ## Bugs
 

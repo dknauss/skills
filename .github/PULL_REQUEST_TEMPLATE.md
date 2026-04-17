@@ -12,7 +12,7 @@
 ## Release Impact
 
 - [ ] No release impact
-- [ ] Existing `.skill` package changes
+- [ ] Existing skill content changes
 - [ ] New or renamed skill directory
 
 ## Notes
