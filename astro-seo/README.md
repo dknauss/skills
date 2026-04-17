@@ -32,6 +32,6 @@ The skill detects your project shape automatically -- you do not need to describ
 
 ## Install
 
-```
+```sh
 npx skills add jdevalk/skills --skill astro-seo
 ```

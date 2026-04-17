@@ -42,6 +42,7 @@ This is the single highest-leverage string in the entire readme. It appears in s
 The long description is the body of the listing page. Structure it for scanning — most visitors won't read every word.
 
 **First paragraph (the hook):**
+
 - Lead with the user's problem or desired outcome, not the plugin's history or technical architecture.
 - Include the primary keyword in the first 150 words.
 - This paragraph should answer: "Why should I install this instead of the other five plugins that showed up in search?"

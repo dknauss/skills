@@ -56,7 +56,7 @@ If `gh` is available (`gh auth status`), pull automatically:
 
 If the user has an existing profile, audit it. If they're starting fresh, skip to Phase 2. Score four categories (each x/10, total x/40):
 
-#### Profile README (x/10)
+### Profile README (x/10)
 
 - **Exists?** No `username/username` repo with README.md is the biggest miss.
 - **Structure** — Ideal flow: greeting/identity → current work → tech stack (badges) → GitHub stats → featured projects → social links → personal touch.
@@ -64,7 +64,7 @@ If the user has an existing profile, audit it. If they're starting fresh, skip t
 - **Scannability** — Gist in 10 seconds? Use `<details>` for collapsible sections.
 - **Freshness** — Dynamic content still updating? GitHub stops cron Actions after 60 days of repo inactivity.
 
-#### Profile Metadata (x/10)
+### Profile Metadata (x/10)
 
 Every empty field is a missed opportunity:
 
@@ -74,7 +74,7 @@ Every empty field is a missed opportunity:
 - **Social accounts** — Twitter/X, LinkedIn linked? Cross-linking builds trust.
 - **Pronouns** — signals inclusivity. **Status** — shows current work or availability?
 
-#### Pinned Repositories (x/10)
+### Pinned Repositories (x/10)
 
 Up to 6 repos (including contributed-to repos):
 
@@ -82,7 +82,7 @@ Up to 6 repos (including contributed-to repos):
 - Prioritize repos with stars (social proof) that align with career/business goals.
 - Each pinned repo should have a polished README (github-repo skill applies here).
 
-#### Contribution Activity (x/10)
+### Contribution Activity (x/10)
 
 - **Graph** — reasonably active? Completely empty raises questions.
 - **Private contributions** — "Include private contributions" enabled in settings?

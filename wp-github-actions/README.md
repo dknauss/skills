@@ -32,6 +32,6 @@ This skill is standalone. It does not chain into other skills.
 
 ## Install
 
-```
+```sh
 npx skills add jdevalk/skills --skill wp-github-actions
 ```

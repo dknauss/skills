@@ -37,6 +37,6 @@ For short strings (titles, descriptions, bios, taglines), use **metadata-check**
 
 ## Install
 
-```
+```sh
 npx skills add jdevalk/skills --skill readability-check
 ```

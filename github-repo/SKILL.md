@@ -38,11 +38,11 @@ Key information to collect: repo name, description, language/framework, README e
 
 Score each category out of 10. For each, give 2–4 specific findings that quote the actual state.
 
-#### README Quality (x/10)
+### README Quality (x/10)
 
 Does the README exist? Is it well-structured with: project name and clear one-liner, badge row (build/license/version), description explaining what/why/who, quick start (install + first use in 3 steps or fewer), code examples, screenshots/demos if visual, configuration docs, contributing link, license mention? Is it under 500 lines with `<details>` for optional content?
 
-#### Repository Metadata (x/10)
+### Repository Metadata (x/10)
 
 - Description set and useful (not blank or "My awesome project")?
 - Topics/tags relevant and complete?
@@ -50,7 +50,7 @@ Does the README exist? Is it well-structured with: project name and clear one-li
 - Social preview image uploaded?
 - "Packages", "Environments", "Deployments" sections hidden if unused?
 
-#### Community Health Files (x/10)
+### Community Health Files (x/10)
 
 - **CONTRIBUTING.md** — exists? Covers dev setup, code style, testing, PR process?
 - **SECURITY.md** — exists? Directs to private reporting channel, states response time?
@@ -61,21 +61,21 @@ Does the README exist? Is it well-structured with: project name and clear one-li
 
 For organizations: check for a `.github` repository with org-wide default health files.
 
-#### Issue & PR Templates (x/10)
+### Issue & PR Templates (x/10)
 
 - YAML-based issue forms (`.github/ISSUE_TEMPLATE/*.yml`) with at least bug report and feature request? Numbered filenames for ordering?
 - `config.yml` disabling blank issues and linking external support?
 - PR template with description, related issues (`Closes #XXX`), type-of-change checkboxes, testing checklist?
 - CODEOWNERS file defining reviewers per directory?
 
-#### CI/CD & Automation (x/10)
+### CI/CD & Automation (x/10)
 
 - GitHub Actions workflows for testing, linting, building? Passing status badges in README?
 - Dependabot or Renovate configured?
 - Code quality (CodeQL, linting actions)?
 - Stale issue management?
 
-#### Releases & Branch Hygiene (x/10)
+### Releases & Branch Hygiene (x/10)
 
 - Tagged releases with changelogs? Semantic versioning?
 - Stale branches cleaned up?

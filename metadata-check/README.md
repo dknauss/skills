@@ -37,6 +37,6 @@ For multi-paragraph prose, use **readability-check** instead.
 
 ## Install
 
-```
+```sh
 npx skills add jdevalk/skills --skill metadata-check
 ```

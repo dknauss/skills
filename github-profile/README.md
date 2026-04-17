@@ -32,6 +32,6 @@ The skill pulls context automatically via `gh` CLI when available, so it can ins
 
 ## Install
 
-```
+```sh
 npx skills add jdevalk/skills --skill github-profile
 ```

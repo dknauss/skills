@@ -30,6 +30,6 @@ The skill also handles organization-level setup -- creating a `.github` repo wit
 
 ## Install
 
-```
+```sh
 npx skills add jdevalk/skills --skill github-repo
 ```
