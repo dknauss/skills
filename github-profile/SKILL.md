@@ -1,6 +1,5 @@
 ---
 name: github-profile
-version: "0.5"
 description: >
   Audits and optimizes GitHub profile pages — profile README, metadata fields, pinned repositories,
   stats widgets, and contribution visibility. Use this skill whenever the user asks to improve,

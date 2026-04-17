@@ -1,6 +1,5 @@
 ---
 name: metadata-check
-version: "0.1"
 description: >
   Reviews short high-value strings — page titles, meta descriptions,
   schema description fields, FAQ answers, GitHub repo taglines, profile

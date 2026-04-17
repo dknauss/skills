@@ -1,6 +1,5 @@
 ---
 name: readability-check
-version: "0.6"
 description: >
   Runs a readability audit on a blog post draft or other multi-paragraph
   prose, calibrated for readers who read English as a second language.

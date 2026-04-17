@@ -1,6 +1,5 @@
 ---
 name: wp-readme-optimizer
-version: "0.5"
 description: >
   Reviews and rewrites WordPress.org plugin readme.txt files for maximum quality.
   Use this skill whenever a user pastes, uploads, or references a WordPress plugin readme.txt,

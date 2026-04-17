@@ -1,6 +1,5 @@
 ---
 name: emdash-github-actions
-version: "0.4"
 description: |
   Sets up GitHub Actions CI/CD workflows for EmDash plugins — TypeScript type-checking, ESLint linting, Vitest testing, npm publishing, and automated releases. ALWAYS use this skill when a user wants to create, add, set up, or configure GitHub Actions, CI/CD, automated checks, or deployment workflows for an EmDash plugin — even if they don't use the exact phrase "GitHub Actions". This includes any request to: add automated type-checking or linting to an EmDash plugin repo; set up testing in CI for a plugin; auto-publish a plugin to npm from GitHub; add security scanning or dependency auditing to a plugin pipeline; or generally "add CI", "add automated checks", "set up workflows", or "automate" anything related to an EmDash plugin's GitHub repository. Also trigger when someone wants quality gates on PRs or is setting up a new EmDash plugin repo and wants best practices for automation. If the user is inside an EmDash plugin repository and mentions anything about automated testing, code quality, deployment, or GitHub workflows, use this skill.
 ---

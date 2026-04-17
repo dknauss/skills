@@ -1,6 +1,5 @@
 ---
 name: astro-seo
-version: "0.7"
 description: >
   Audits and improves SEO for Astro sites. Use when the user asks to audit,
   set up, or improve SEO on an Astro site, or mentions head metadata,

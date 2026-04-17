@@ -1,6 +1,5 @@
 ---
 name: github-repo
-version: "0.5"
 description: >
   Audits and improves GitHub repository quality — README structure, community health files,
   .github directory setup, issue/PR templates, metadata, releases, and branch hygiene.
