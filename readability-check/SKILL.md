@@ -1,20 +1,26 @@
 ---
 name: readability-check
 description: >
-  Runs a readability audit on a blog post draft, calibrated for readers who read
-  English as a second language. Checks nine categories — paragraph structure,
-  opening paragraph strength, tiered sentence length, passive voice, difficult
-  words, filler and hedging, transitions, variation, and heading hierarchy —
-  and reports a Flesch Reading Ease score with a per-category status. Use when
-  the user asks to check readability, run a readability pass, or asks "is this
-  readable", or proactively as a second pass after a substantial draft is
-  complete. Also invoked by the github-repo, github-profile, and
-  wp-readme-optimizer skills on their generated prose.
+  Runs a readability audit on a blog post draft or other multi-paragraph
+  prose, calibrated for readers who read English as a second language.
+  Checks nine categories — paragraph structure, opening paragraph
+  strength, tiered sentence length, passive voice, difficult words,
+  filler and hedging, transitions, variation, and heading hierarchy —
+  and reports a Flesch Reading Ease score with a per-category status.
+  Use when the user asks to check readability, run a readability pass,
+  or asks "is this readable", or proactively as a second pass after a
+  substantial draft is complete. Also invoked by the github-repo,
+  github-profile, and wp-readme-optimizer skills on their generated
+  prose. For short strings (titles, meta descriptions, taglines, bios),
+  use the `metadata-check` skill instead — Flesch and paragraph-level
+  checks don't apply to them.
 ---
 
 # Readability check
 
-Run a readability audit on a blog post draft. Use when the user asks to check readability ("check readability", "readability pass", "is this readable"), or proactively after a substantial draft is complete — as a second pass after the blog-drafting skill's critical read, not during active drafting.
+Run a readability audit on a blog post draft or other multi-paragraph prose. Use when the user asks to check readability ("check readability", "readability pass", "is this readable"), or proactively after a substantial draft is complete — as a second pass after the blog-drafting skill's critical read, not during active drafting.
+
+For short strings — page titles, meta descriptions, schema `description` fields, FAQ answers, profile bios, repo taglines — use the `metadata-check` skill. Flesch scoring and the nine-category rubric below don't fit a 5–30 word string and will mislead.
 
 ## Audience calibration
 

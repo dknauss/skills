@@ -48,4 +48,4 @@ If you do not have those tools installed locally, rely on GitHub Actions for fin
 
 ## Releases
 
-Releases are built from this repository's workflow configuration and publish `.skill` archives for each top-level skill directory. Do not rename skill directories casually because release filenames and validation assume stable names.
+Releases are tagged from `main` and documented with changelogs. Skills are distributed via `npx skills add jdevalk/skills` — no build artifacts. Do not rename skill directories casually because the skills CLI, `versions.json`, and validation assume stable names.

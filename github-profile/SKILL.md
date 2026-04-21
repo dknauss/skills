@@ -14,12 +14,15 @@ description: >
 
 This skill audits a GitHub profile and generates an optimized profile README along with recommendations for metadata, pinned repositories, and stats widgets. A strong GitHub profile is a developer's storefront — it shapes perception before anyone reads a line of code.
 
+**Code recipes live in `AGENTS.md`** — read it when you need to implement a specific fix. This file has the workflow and audit checklist.
+
 ## Workflow
 
 1. **Gather profile context** — Understand who this person/org is and what they want to showcase
 2. **Audit the current profile** — Score every element of the profile's public presence
 3. **Generate the profile README** — Write a polished, scannable README.md
 4. **Recommend metadata and configuration** — Advise on bio, pinned repos, settings, and widgets
+5. **Verify** — Confirm rendering, badge URLs, and summarize next steps
 
 ---
 
@@ -39,243 +42,82 @@ Ask the user (if not obvious): is this a **personal profile** or an **organizati
 
 ### Collect information
 
-You need to understand the person/org before writing anything. Gather:
+Gather before writing: **username**, current role/company, primary technologies, what they want to showcase, tone (professional/casual/creative/minimal), and target audience (recruiters/collaborators/investors/OSS community).
 
-- **Username** — needed for stats widget URLs and the magic repo name
-- **Current role/company** — what they do now
-- **Primary technologies** — languages, frameworks, tools they work with
-- **What they want to showcase** — open source projects, work experience, learning journey, company products
-- **Tone** — professional, casual, creative, minimal
-- **Target audience** — recruiters, collaborators, potential investors, open source community
-
-If `gh` is available (`gh auth status`), pull what you can automatically:
+If `gh` is available (`gh auth status`), pull automatically:
 
 - `gh api user` — name, bio, company, location, blog, twitter
 - `gh api users/{username}/repos?sort=stars&per_page=10` — top repos for pin recommendations
-- Check if `username/username` repo exists: `gh repo view {username}/{username} --json name 2>/dev/null`
+- `gh repo view {username}/{username} --json name 2>/dev/null` — check if magic repo exists
 
 ---
 
 ## Phase 1: Audit
 
-If the user has an existing profile, audit it. If they're starting fresh, skip to Phase 2.
+If the user has an existing profile, audit it. If they're starting fresh, skip to Phase 2. Score four categories (each x/10, total x/40):
 
-### Score Table
+### Profile README (x/10)
 
-```text
-Category                        Score
-─────────────────────────────────────
-Profile README                  x/10
-Profile Metadata                x/10
-Pinned Repositories             x/10
-Contribution Activity           x/10
-─────────────────────────────────────
-Overall                         x/40
-```
+- **Exists?** No `username/username` repo with README.md is the biggest miss.
+- **Structure** — Ideal flow: greeting/identity → current work → tech stack (badges) → GitHub stats → featured projects → social links → personal touch.
+- **Length** — 400-800 words. Under 200 feels thin; over 2,000 clutters.
+- **Scannability** — Gist in 10 seconds? Use `<details>` for collapsible sections.
+- **Freshness** — Dynamic content still updating? GitHub stops cron Actions after 60 days of repo inactivity.
 
-### What to evaluate
+### Profile Metadata (x/10)
 
-#### Profile README (x/10)
+Every empty field is a missed opportunity:
 
-- **Does it exist?** If there's no `username/username` repo with a README.md, that's the biggest miss.
-- **Structure** — Does it flow logically? The ideal order:
-  1. Greeting and identity statement (name, role, one-sentence hook)
-  2. What you're working on (current projects, 2-3 sentences)
-  3. Tech stack (badges or icons via shields.io or devicon)
-  4. GitHub stats (dynamically generated cards)
-  5. Featured projects (beyond what's pinned)
-  6. Contact and social links (badge-style links)
-  7. Personal touch (fun fact, motto, learning goal)
-- **Length** — Aim for 400-800 words. Under 200 feels thin. Over 2,000 feels cluttered and undermines credibility.
-- **Scannability** — Can someone get the gist in 10 seconds? Use `<details>` tags for collapsible sections to keep the visible portion clean.
-- **Freshness** — Is dynamic content (blog posts, activity) still updating? GitHub stops cron-based Action triggers after 60 days of repo inactivity.
+- **Photo** — clear headshot, consistent across platforms?
+- **Bio** — filled in (160 char limit), states role + primary tech + distinguishing trait?
+- **Company** — linked with `@` prefix? **Location, Website** — filled in?
+- **Social accounts** — Twitter/X, LinkedIn linked? Cross-linking builds trust.
+- **Pronouns** — signals inclusivity. **Status** — shows current work or availability?
 
-#### Profile Metadata (x/10)
+### Pinned Repositories (x/10)
 
-Every empty field is a missed opportunity. Check:
+Up to 6 repos (including contributed-to repos):
 
-- **Profile photo** — Clear, professional headshot? Consistent with LinkedIn/Twitter?
-- **Bio** — Filled in? (160 character limit.) States role, primary technology, one distinguishing trait?
-- **Company** — Linked with `@` prefix to the employer's org?
-- **Location** — Filled in?
-- **Website** — Linked?
-- **Social accounts** — Twitter/X, LinkedIn linked? Cross-linking between profiles builds trust.
-- **Pronouns** — Using this field signals inclusivity.
-- **Status** — Set to show current work, availability, or open-to-work?
+- All 6 slots used? Descriptions filled in? Variety across technologies?
+- Prioritize repos with stars (social proof) that align with career/business goals.
+- Each pinned repo should have a polished README (github-repo skill applies here).
 
-#### Pinned Repositories (x/10)
+### Contribution Activity (x/10)
 
-You can pin up to 6 repos (including repos you've contributed to).
-
-- **Are all 6 slots used?** Empty slots waste prime real estate.
-- **Do pinned repos have descriptions?** A pinned repo with "No description provided" looks careless.
-- **Is there variety?** Showcase different technologies and project types.
-- **Social proof** — Do pinned repos have stars? Prioritize repos with more stars.
-- **Alignment** — Do the pins match the kind of work or roles the person wants to attract?
-- **README quality** — Each pinned repo should have a polished README (this is where the github-repo skill applies).
-
-#### Contribution Activity (x/10)
-
-- **Contribution graph** — Is it reasonably active? Gaps are fine, but a completely empty graph raises questions.
-- **Private contributions** — Is "Include private contributions" enabled in settings? This shows activity from private repos without revealing details.
-- **Achievement badges** — Notable badges like Starstruck, Pull Shark, Arctic Code Vault Contributor? These add credibility.
+- **Graph** — reasonably active? Completely empty raises questions.
+- **Private contributions** — "Include private contributions" enabled in settings?
+- **Achievements** — Starstruck, Pull Shark, Arctic Code Vault Contributor add credibility.
 
 ---
 
 ## Phase 2: Generate the Profile README
 
-### For personal profiles
+Based on the audit (or from scratch), produce the profile README. **Read `AGENTS.md` for detailed recipes.**
 
-Create the `username/username` repo's `README.md`. The profile README should be:
+The profile README should be scannable, personal, and purposeful — every section should serve the person's goals. Adapt tone and structure to the audience.
 
-- **Scannable** — someone should get the gist in 10 seconds
-- **Personal** — it should feel like a human wrote it, not a template
-- **Purposeful** — every section should serve the person's goals
-
-#### Template structure
-
-```markdown
-# Hi, I'm [Name] [optional wave emoji]
-
-[One-liner about what you do and what drives you. This is the hook.]
-
-## What I'm working on
-
-[2-3 sentences about current projects, company, or focus areas.]
-
-## Tech stack
-
-[Badges using shields.io, e.g.:]
-![Python](https://img.shields.io/badge/-Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-
-## GitHub stats
-
-[Stats cards — see widget section below]
-
-## Featured projects
-
-[Brief descriptions of 2-3 key projects with links, if they want to highlight beyond pins]
-
-## Connect with me
-
-[Badge-style links to email, Twitter/X, LinkedIn, blog]
-```
-
-Adapt this to the person's tone and goals. A creative developer might want something playful. A startup founder might want something that signals credibility. A junior developer might emphasize learning and growth. Don't be afraid to deviate from the template — personality matters more than structure.
-
-#### Stats widgets to include
-
-Pick the ones that make sense for the person. Don't overload — 2-3 widgets is usually right.
-
-**github-readme-stats** (anuraghazra) — The most popular option with 78,000+ stars:
-
-```markdown
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username={username}&show_icons=true&theme={theme})
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username={username}&layout=compact&theme={theme})
-```
-
-Over 30 themes available. Can be self-hosted on Vercel to avoid rate limits.
-
-**github-readme-streak-stats** (DenverCoder1) — Contribution streaks:
-
-```markdown
-![GitHub Streak](https://streak-stats.demolab.com/?user={username}&theme={theme})
-```
-
-**github-profile-trophy** (ryo-ma) — Trophy icons:
-
-```markdown
-![Trophies](https://github-profile-trophy.vercel.app/?username={username}&theme={theme}&no-frame=true&row=1)
-```
-
-#### Badges for tech stack and social links
-
-Use **shields.io** combined with **Simple Icons** (3,000+ brand logos):
-
-```text
-https://img.shields.io/badge/-{Label}-{Color}?style={style}&logo={logo}&logoColor=white
-```
-
-Styles: `flat`, `flat-square`, `plastic`, `for-the-badge`, `social`
-
-For social links, wrap badges in links:
-
-```markdown
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/{handle})
-[![Twitter](https://img.shields.io/badge/-Twitter-1DA1F2?style=flat-square&logo=twitter&logoColor=white)](https://twitter.com/{handle})
-```
-
-#### Dynamic auto-updating content (optional, requires GitHub Actions)
-
-If the person blogs or creates content, suggest these:
-
-- **blog-post-workflow** (gautamkrishnar) — Auto-pulls latest posts from RSS feeds into the README. Uses HTML comment placeholders. Needs a scheduled GitHub Action (daily cron).
-- **waka-readme-stats** — Coding time metrics from WakaTime.
-
-Remind them: GitHub stops cron triggers after 60 days of repo inactivity. The blog-post-workflow includes a keepalive feature; others may not.
-
-### For organization profiles
-
-Create `.github/profile/README.md` in the org's `.github` repo.
-
-Organization profile READMEs should be more structured and less personal:
-
-- What the organization does
-- Key products or projects (with links to repos)
-- How to get involved (contributing, jobs, community)
-- Contact and social links
-
-Optionally, create a `.github-private/profile/README.md` for member-only content:
-
-- Internal resources and onboarding links
-- Private repo directory
-- Team information
-
-Remind the user to **verify their organization's domain** (Settings → Verified & approved domains) for the verified badge.
+`AGENTS.md` sections: Personal profile README template, Stats widgets, Badges for tech stack and social links, Dynamic auto-updating content, Organization profile README, Profile generators.
 
 ---
 
-## Phase 2.5: Readability pass
+## Phase 2.5: Metadata and readability pass
 
-Before moving to recommendations, run a readability pass on the generated profile README by invoking the `readability-check` skill. Profile READMEs are short and heavily skimmed — a single long or passive sentence in the bio or "What I'm working on" section stands out more than in a long document.
+1. **`metadata-check` skill** — run on the GitHub bio (160 chars) and any pinned repo descriptions you rewrote. Front-loading, concreteness, active voice, truncation fit (GitHub shows ~100 chars in profile cards).
+2. **`readability-check` skill** — run on the profile README body. Profile READMEs are skimmed; one passive or long sentence stands out.
 
-Apply the fixes the skill flags as ⚠ or ✗ directly in the README. Pay particular attention to: (1) the bio / opening line, which carries disproportionate weight; (2) the first sentence of each section, since the profile is read by skimming; (3) passive voice, which reads especially flat in first-person content.
+Apply fixes directly. Focus on: (1) bio / opening README line (disproportionate weight); (2) first sentence of each section (skimming entry point); (3) passive voice (flat in first-person content).
 
 ---
 
 ## Phase 3: Recommendations
 
-Beyond the README, provide specific recommendations for:
-
 ### Metadata to update
 
-List exactly what to change in GitHub settings. Be specific:
-
-- "Set your bio to: [suggested text, under 160 chars]"
-- "Add these topics to your top repos: [list]"
-- "Set your status to: [suggestion]"
+Be specific: "Set your bio to: [text, under 160 chars]", "Add these topics to your top repos: [list]", "Set your status to: [suggestion]".
 
 ### Pinned repository strategy
 
-Recommend which 6 repos to pin and why. Consider:
-
-- Variety across technologies
-- Star count (social proof)
-- README quality (each pinned repo should look polished)
-- Alignment with career/business goals
-
-If their best repos have weak READMEs, suggest improving those first (this is where the github-repo skill comes in — mention it).
-
-### Profile generators (for quick starts)
-
-If the user wants a faster path, mention these tools:
-
-- **GPRM** (gprm.itsvg.in) — No-code generator with 300+ tech icons
-- **rahuldkjain's generator** — Popular fill-in-the-blanks tool
-- **readme.so** — Drag-and-drop editor for both profile and project READMEs
-
-Recommendation: start with a generator, then customize to add personality and remove boilerplate.
+Recommend which 6 repos to pin and why — variety across technologies, star count (social proof), README quality, alignment with goals. If pinned repos have weak READMEs, suggest improving those first (github-repo skill).
 
 ---
 
@@ -286,3 +128,19 @@ Recommendation: start with a generator, then customize to add personality and re
 - Verify stats widget URLs use the correct username
 - If generating locally, remind the user to create the magic repo (`username/username`) if it doesn't exist, and push the README there
 - Summarize next steps: what to commit/push, what to change in GitHub settings manually
+
+---
+
+## Output format
+
+Score table (4 categories, each x/10, total x/40) → Findings grouped by category → Files generated or changed → Next steps (settings changes, repos to pin, manual GitHub config).
+
+---
+
+## Key principles
+
+- **Scannable over comprehensive.** A profile is skimmed in 10 seconds. Cut anything that doesn't earn its space.
+- **Personality over template.** Adapt tone, structure, and content to the person's goals and audience. A creative developer and a startup founder need different profiles.
+- **Every field filled.** Empty metadata fields, missing pinned repos, and blank descriptions are missed opportunities.
+- **Dynamic where it adds value.** Stats widgets and auto-updating blog feeds keep a profile fresh, but don't overload — 2-3 widgets is usually right.
+- **Cross-link everything.** GitHub, LinkedIn, Twitter/X, personal site — each profile should point to the others.

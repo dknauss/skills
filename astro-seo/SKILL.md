@@ -6,7 +6,7 @@ description: >
   structured data, JSON-LD, sitemaps, IndexNow, Open Graph images, schema
   endpoints, NLWeb, hreflang, or search engine indexing in an Astro project.
   Produces drop-in code routed through `@jdevalk/astro-seo-graph` and chains
-  into `readability-check` for generated prose.
+  into `metadata-check` for generated SEO strings.
 ---
 
 # Astro SEO
@@ -15,12 +15,14 @@ Audits and improves the SEO setup of an Astro site against the full stack descri
 
 The opinionated spine of this skill is [`@jdevalk/astro-seo-graph`](https://github.com/jdevalk/seo-graph). Most of the fixes route through it. If the project doesn't use it yet, installing it is the first recommendation.
 
+**Code recipes live in `AGENTS.md`** — read it when you need to implement a specific fix. This file has the workflow and audit checklist.
+
 ## Workflow
 
 1. **Detect the project** — confirm this is an Astro site and understand its shape.
 2. **Audit** — score nine categories and produce actionable findings.
-3. **Improve** — generate or modify files to close the gaps.
-4. **Readability pass** — invoke `readability-check` on any prose the skill generated (titles, descriptions, schema `description` fields, FAQ entries).
+3. **Improve** — generate or modify files to close the gaps. Recipes are in `AGENTS.md`.
+4. **Metadata pass** — invoke `metadata-check` on every short string the skill generated (titles, descriptions, schema `description` fields, FAQ answers, frontmatter excerpts).
 5. **Verify** — run the build, check validations pass, remind the user about non-file tasks (Search Console, Bing Webmaster Tools, IndexNow key verification).
 
 ---
@@ -85,6 +87,7 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 - Generated at build time via satori + sharp, or manual?
 - JPEG (social platforms don't reliably support WebP/AVIF)?
 - Route derives OG URL from the slug automatically?
+- Every `<img>` in rendered HTML has an `alt` attribute (or `alt=""` / `role="presentation"` for decorative images)? `validateImageAlt` on `seoGraph()` catches this at build time in ≥ 1.1.0.
 
 ### 5. Sitemaps and indexing (/10)
 
@@ -93,12 +96,14 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 - **Must** — RSS feed exists (`@astrojs/rss`), advertised via `<link rel="alternate" type="application/rss+xml">`, contains full post content (not truncated excerpts).
 - **Should** — split per-collection via `chunks` option (`sitemap-posts-0.xml`, etc.) — much easier to debug indexing in GSC.
 - **Should** — `lastmod` populated from git commit timestamps, not frontmatter dates or CI file timestamps.
-- **Should** — IndexNow integrated and submitting on each build, with key verification route at `/[key].txt`.
+- **Should** — IndexNow integrated and submitting on each build, with key verification route at `/[key].txt`. ≥ 1.0.1 excludes `/404` from submissions by default. **Gate submission on the production host** (e.g. `process.env.CF_PAGES === '1' && CF_PAGES_BRANCH === 'main'`, `VERCEL_ENV === 'production'`, `CONTEXT === 'production'`). Unconditional submission pings the endpoint on every local `npm run build` and preview deploy with URLs the production host hasn't served yet, which gets the key marked invalid (403) and forces rotation.
 
 ### 6. Agent discovery (/10)
 
 - **Should** — schema endpoints (`/schema/*.json`) exposing corpus-wide JSON-LD.
 - **Should** — schema map (`/schemamap.xml`) listing all endpoints, with `Schemamap:` directive in `robots.txt`.
+- **Should** — [`llms.txt`](https://llmstxt.org) at the site root listing pages (title + description) for LLM consumers. `@jdevalk/astro-seo-graph` ≥ 0.9.0 generates this via the `llmsTxt` integration option.
+- **Should** — markdown-alternate URLs (`/blog/post.md` next to `/blog/post/`) serving clean markdown with YAML frontmatter for AI agents to consume without HTML parsing. `@jdevalk/astro-seo-graph` ≥ 1.2.0 ships `createMarkdownEndpoint` for the route and a `markdownAlternate: true` integration option that emits `<link rel="alternate" type="text/markdown">` on every page. Pair with Cloudflare Transform Rules (URL rewrite + `Vary: Accept`) for content negotiation on `Accept: text/markdown` without needing SSR.
 - **Nice** — `<link rel="nlweb">` pointing to a conversational endpoint. NLWeb is early; the tag is one line and worth having, but it's not a scoring blocker in 2026.
 
 ### 7. Performance (/10)
@@ -120,210 +125,28 @@ Skip **Nice** checks for small personal blogs unless the user asks for the full 
 
 ### 9. Build-time validation and content quality (/10)
 
-- **Must** — `seoGraph()` integration running on each build with H1 validation, duplicate title/description detection, and JSON-LD schema validation enabled.
-- **Should** — broken link checker in CI. A [lychee](https://github.com/lycheeverse/lychee-action) GitHub Action on every push to content files catches dead links before they go live; a weekly scheduled run catches link rot as external sites move or disappear. Broken outbound links are a bad UX and a negative trust signal.
-- **Should** — content audited for readability (lead sentences, sentences under 20 words, transitions). Phase 2.5 chains this in via `readability-check`.
+- **Must** — `seoGraph()` integration running on each build with `validateH1` and `validateUniqueMetadata` enabled. For JSON-LD validation, pass `warnOnDanglingReferences: true` to `assembleGraph()` in `seo-graph-core` — that's the assembly-time check, not an integration option.
+- **Should** — `validateImageAlt`, `validateMetadataLength`, and `validateInternalLinks` enabled on `seoGraph()` (all default `true` in ≥ 1.1.0). They catch missing alt text, titles or descriptions outside SERP bounds (defaults: title 30–65, description 70–200), and internal links that 404 or hit a trailing-slash mismatch. Upgrade to ≥ 1.1.1 if the project is on 1.1.0 — that patch release fixes two validator bugs: `validateInternalLinks` now recognises `public/` assets as valid targets (no more false positives on `/images/*` or `/fonts/*`), and `validateMetadataLength` no longer truncates descriptions containing a raw apostrophe. Use `skip` only for SSR-only routes, wildcards, and `[slug]` params.
+- **Should** — broken link checker in CI for _external_ links. A [lychee](https://github.com/lycheeverse/lychee-action) GitHub Action on every push to content files catches dead links before they go live; a weekly scheduled run catches link rot as external sites move or disappear. Broken outbound links are a bad UX and a negative trust signal. Internal links are covered by `validateInternalLinks` at build time; lychee handles everything else.
+- **Should** — SEO strings (titles, descriptions, FAQ answers) audited for metadata quality — front-loading, concreteness, truncation fit, no title/description duplication. Phase 2.5 chains this in via `metadata-check`. Individual post prose can be audited separately via `readability-check`.
 
 ---
 
 ## Phase 2: Improve
 
-Based on the audit, produce the concrete code. Always ask before overwriting.
+Based on the audit, produce the concrete code. Always ask before overwriting. **Read `AGENTS.md` for detailed recipes.**
 
 **Branch on the Phase 0 findings.** If `@jdevalk/astro-seo-graph` is already installed, skip the install step and focus on wiring the features the audit flagged as missing (IndexNow, FuzzyRedirect, schema endpoints, build validation). If the user has a hand-rolled setup that already satisfies the **Must** checks in category 1, don't rip it out — add only what's missing. Replacement is a last resort, not the default.
 
-### Install or upgrade `@jdevalk/astro-seo-graph`
-
-If not installed:
-
-```sh
-npm install @jdevalk/astro-seo-graph
-```
-
-If installed but behind the latest npm version (checked in Phase 0):
-
-```sh
-npm install @jdevalk/astro-seo-graph@latest
-```
-
-Read the package's [changelog](https://github.com/jdevalk/seo-graph/blob/main/packages/astro-seo-graph/CHANGELOG.md) between the installed and latest version before upgrading — new defaults may need explicit opt-out if the project relied on old behavior.
-
-Wire the integration:
-
-```js
-// astro.config.mjs
-import seoGraph from '@jdevalk/astro-seo-graph/integration';
-
-export default defineConfig({
-    site: 'https://example.com',
-    integrations: [
-        seoGraph({
-            validateH1: true,
-            validateDuplicateMeta: true,
-            validateSchema: true,
-            indexNow: {
-                key: 'REPLACE_WITH_GENERATED_KEY',
-                host: 'example.com',
-                siteUrl: 'https://example.com',
-            },
-        }),
-    ],
-});
-```
-
-### `BaseHead.astro`
-
-Replace whatever head metadata the project has with a single `<Seo>` call. The component handles title, description, canonical, Open Graph, Twitter, JSON-LD graph, and extra links in one place.
-
-### Content collection schema
-
-```ts
-// src/content/config.ts
-import { defineCollection, z } from 'astro:content';
-import { seoSchema } from '@jdevalk/astro-seo-graph';
-
-export const collections = {
-    blog: defineCollection({
-        schema: ({ image }) => z.object({
-            title: z.string(),
-            excerpt: z.string(),
-            publishDate: z.coerce.date(),
-            seo: seoSchema(image).optional(),
-        }),
-    }),
-};
-```
-
-### Per-collection sitemap + git lastmod
-
-```js
-import sitemap from '@astrojs/sitemap';
-import { execSync } from 'node:child_process';
-
-function gitLastmod(filePath) {
-    try {
-        const log = execSync(`git log -1 --format="%cI" -- "${filePath}"`, { encoding: 'utf-8' }).trim();
-        return log ? new Date(log) : null;
-    } catch { return null; }
-}
-
-sitemap({
-    entryLimit: 1000,
-    chunks: {
-        posts: (item) => isBlogPost(new URL(item.url).pathname) ? item : undefined,
-    },
-    serialize: (item) => {
-        // attach gitLastmod for the source file that produced this URL
-        return item;
-    },
-});
-```
-
-### OG image route
-
-Stand up `/og/[...slug].jpg` using satori + sharp. If the project already has one, check it outputs 1200×675 JPEG.
-
-### Schema endpoints and schema map
-
-Each endpoint collects every entry in a content collection, builds the JSON-LD graph per entry, and serves the combined result as `application/ld+json`. Don't hand-write the mapper — the full implementation with entity builders (`buildWebPage`, `buildArticle`, etc.) and their expected arguments is documented in the [`astro-seo-graph` schema endpoints docs](https://github.com/jdevalk/seo-graph/tree/main/packages/astro-seo-graph#schema-endpoints). Copy from there. Then add `/schemamap.xml` listing every endpoint, and a `Schemamap:` directive in `robots.txt`.
-
-### RSS feed
-
-If no feed exists, add `@astrojs/rss`:
-
-```sh
-npm install @astrojs/rss
-```
-
-Create `src/pages/feed.xml.ts` that pulls the blog collection and renders full post bodies (not excerpts) — truncated feeds frustrate readers and give AI agents less to work with. Advertise the feed in the `<Seo>` component's `extraLinks` with `rel="alternate"` and `type="application/rss+xml"`.
-
-### Redirects and FuzzyRedirect
-
-Seeding `_redirects` from scratch is the unpleasant part. Practical approach:
-
-- If migrating from WordPress or another CMS, export the old URL list from the source (WP-CLI `wp post list`, database dump, or the old sitemap via Wayback Machine).
-- Diff old URLs against the current sitemap; every URL in the old set not in the new set needs a redirect entry.
-- Commit the table once, maintain it going forward whenever you change a slug.
-
-Syntax depends on the host:
-
-- **Cloudflare Pages / Netlify:** `public/_redirects` — `/old-path /new-path 301` per line.
-- **Vercel:** `vercel.json` with a `redirects` array.
-- **Other hosts:** server config (nginx, Apache, etc.).
-
-Then add `<FuzzyRedirect>` to the 404 page. Confirm the 404 page returns a 404 status, not 200 — platform-specific behavior, check the deployed response.
-
-### Performance headers
-
-Syntax depends on the host. Pick the one matching Phase 0's detected deployment target.
-
-**Cloudflare Pages / Netlify** — `public/_headers`:
-
-```text
-/_astro/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/*
-  No-Vary-Search: key-order, params=("utm_source" "utm_medium" "utm_campaign" "utm_content" "utm_term")
-```
-
-**Vercel** — `vercel.json`:
-
-```json
-{
-    "headers": [
-        {
-            "source": "/_astro/(.*)",
-            "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
-        },
-        {
-            "source": "/(.*)",
-            "headers": [{ "key": "No-Vary-Search", "value": "key-order, params=(\"utm_source\" \"utm_medium\" \"utm_campaign\" \"utm_content\" \"utm_term\")" }]
-        }
-    ]
-}
-```
-
-**Other hosts** — configure equivalents in server config; syntax varies.
-
-### Broken link checker in CI
-
-Add a [lychee](https://github.com/lycheeverse/lychee-action) workflow at `.github/workflows/link-check.yml`:
-
-```yaml
-name: Link Check
-on:
-  push:
-    paths:
-      - 'src/content/**'
-      - 'src/pages/**'
-      - '*.md'
-  schedule:
-    - cron: '0 9 * * 1'  # Weekly, Mondays 09:00 UTC — catches link rot
-  workflow_dispatch:
-
-jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: lycheeverse/lychee-action@v2
-        with:
-          args: --no-progress './**/*.md' './**/*.astro' './**/*.mdx'
-          fail: true
-```
-
-Push-triggered runs block broken links from shipping. The weekly run catches external link rot.
+`AGENTS.md` sections: Install/upgrade, Integration config, BaseHead.astro, Content collection schema, Sitemap + git lastmod, OG image route, Schema endpoints, llms.txt, Markdown alternates, RSS feed, Redirects + FuzzyRedirect, Performance headers, Broken link checker in CI.
 
 ---
 
-## Phase 2.5: Readability pass
+## Phase 2.5: Metadata and readability pass
 
-Invoke the `readability-check` skill on every piece of prose the skill generated or modified: page titles, meta descriptions, schema `description` fields, FAQ entries, and any blog post frontmatter `excerpt` values you wrote.
+Invoke the `metadata-check` skill on every short string the skill generated or modified: page titles, meta descriptions, schema `description` fields, FAQ answers, and any blog post frontmatter `excerpt` values you wrote. It checks front-loading, concreteness, filler, active voice, title/description duplication, difficult words, SERP-truncation fit (title 30–65, description 70–200 — the same bounds `validateMetadataLength` enforces), and one-idea-per-field. Apply the fixes directly. Skip the pass entirely for technical strings (URLs, schema `@id` values, enum values).
 
-SEO titles and descriptions are short but consequential — a long passive opening sentence in a meta description wastes the 160 characters Google shows in results. Apply the ⚠ and ✗ fixes directly. Skip the pass for technical strings (URLs, schema `@id` values, enum values).
-
-If the project has a blog or docs content collection, note that the same `readability-check` skill can audit individual posts — mention this to the user as a follow-up, but don't audit the entire content corpus yourself.
+If the project has a blog or docs content collection, mention to the user as a follow-up that the `readability-check` skill can audit individual posts for multi-paragraph prose quality — but don't audit the entire content corpus yourself.
 
 ---
 

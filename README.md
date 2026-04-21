@@ -1,29 +1,60 @@
 # Skills
 
-> **Note:** The canonical source for all WordPress agent skills is [dknauss/agent-skills](https://github.com/dknauss/agent-skills) (fork of [WordPress/agent-skills](https://github.com/WordPress/agent-skills)). The skills in this repo have been migrated there. This repo is maintained as a public fork of [jdevalk/skills](https://github.com/jdevalk/skills) but is no longer the primary distribution point.
+> **Note:** The canonical source for all WordPress agent skills is [dknauss/agent-skills](https://github.com/dknauss/agent-skills) (fork of [WordPress/agent-skills](https://github.com/WordPress/agent-skills)). This repository is maintained as a public fork of [jdevalk/skills](https://github.com/jdevalk/skills) and stays as close to upstream as practical while preserving fork-specific workflow and distribution changes.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Markdown Lint](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml)
 [![Link Check](https://github.com/dknauss/skills/actions/workflows/link-check.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/link-check.yml)
 [![Validate Skills](https://github.com/dknauss/skills/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/validate-skills.yml)
 
-This repository collects Claude Code skills that improve your GitHub presence, WordPress plugins, and EmDash plugins. You can audit and improve your GitHub repos and profile pages, set up CI/CD pipelines, and rewrite WordPress.org readme files for better search rankings and conversions. Each skill is a structured, score-based workflow that produces drop-in replacements.
+This repository collects agent skills that improve your GitHub presence, WordPress plugins, EmDash plugins, Astro sites, and the readability of your writing. You can audit and improve GitHub repos and profile pages, set up CI/CD pipelines for WordPress and EmDash plugins, rewrite WordPress.org readme files for better search rankings, audit Astro site SEO end-to-end, and run a readability pass on drafts. Each skill is a structured, score-based workflow that produces drop-in replacements.
 
 ## Installation
 
-Download the `.skill` file you want from the [latest release in this repository](https://github.com/dknauss/skills/releases/latest) and open it in Claude, or copy the skill directory into your local skills folder.
+Install a single skill or all of them via the [skills CLI](https://skills.sh):
 
-## Project Status
+```sh
+# One skill
+npx skills add dknauss/skills --skill astro-seo
 
-- This repository ships its own releases and CI workflows.
-- The content was originally forked from [jdevalk/skills](https://github.com/jdevalk/skills) and may diverge over time.
-- Validation covers skill frontmatter, linked support files, and bundled eval fixtures before release packaging.
+# All skills in this repo
+npx skills add dknauss/skills
+```
 
-## What's Included
+The CLI supports Claude Code, Cursor, Cline, GitHub Copilot, and 20+ other agents. Use `--agent` to pick which ones.
 
-### GitHub Repo Optimizer
+## Updating
 
-Audits a GitHub repository against best practices and generates the files that make a repo look professional: `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, issue and PR templates, and related community files.
+```sh
+# Update all installed skills
+npx skills update
+
+# Update a single skill
+npx skills update astro-seo
+```
+
+**Optional: auto-check on session start.** Add a `SessionStart` hook to your Claude Code `settings.json` so stale skills are flagged before you hit them:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "npx skills update -g -y 2>/dev/null"
+      }
+    ]
+  }
+}
+```
+
+This runs outside the context window on every session start, `/clear`, and compaction — zero token cost. If the latency bothers you on `/clear`, scope it to startup only by checking the `source` field in the hook input.
+
+## What's included
+
+### 🔧 GitHub Repo Optimizer
+
+Audits a GitHub repository against best practices and generates the files that make a repo look professional: README, CONTRIBUTING.md, SECURITY.md, issue/PR templates, and more. Scores six categories out of 60 and produces drop-in replacements for anything that's missing or weak.
 
 **Trigger phrases:** *"improve my repo"*, *"set up issue templates"*, *"make my GitHub project look professional"*
 
@@ -40,7 +71,7 @@ Audits a GitHub repository against best practices and generates the files that m
 
 </details>
 
-### GitHub Profile Optimizer
+### 👤 GitHub Profile Optimizer
 
 Reviews a GitHub profile page — bio, pinned repos, profile README, stats widgets, contribution visibility — and generates an optimized profile README. Works for both personal and organization profiles.
 
@@ -57,7 +88,7 @@ Reviews a GitHub profile page — bio, pinned repos, profile README, stats widge
 
 </details>
 
-### WordPress GitHub Actions
+### ⚙️ WordPress GitHub Actions
 
 Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. The skill analyzes your plugin's structure — Composer, JS/CSS assets, tests, WordPress.org listing — and picks the workflows you need. Coverage includes:
 
@@ -74,14 +105,14 @@ Sets up a complete GitHub Actions CI/CD pipeline for WordPress plugins. The skil
 <summary><strong>Sources</strong></summary>
 
 - Joost de Valk — [GitHub Actions to keep your WordPress plugin healthy](https://joost.blog/github-actions-wordpress/)
-- [10up/wpcs-action](https://github.com/10up/wpcs-action)
-- [10up/action-wordpress-plugin-deploy](https://github.com/10up/action-wordpress-plugin-deploy)
-- [WordPress/action-wp-playground-pr-preview](https://github.com/WordPress/action-wp-playground-pr-preview)
+- [10up/wpcs-action](https://github.com/10up/wpcs-action) — WordPress Coding Standards GitHub Action
+- [10up/action-wordpress-plugin-deploy](https://github.com/10up/action-wordpress-plugin-deploy) — Deploy to WordPress.org
+- [WordPress/action-wp-playground-pr-preview](https://github.com/WordPress/action-wp-playground-pr-preview) — Playground PR previews
 - WordPress Developer Blog — [How to add automated unit tests to your WordPress plugin](https://developer.wordpress.org/news/2025/12/how-to-add-automated-unit-tests-to-your-wordpress-plugin/)
 
 </details>
 
-### EmDash GitHub Actions
+### 🔷 EmDash GitHub Actions
 
 Sets up GitHub Actions CI/CD workflows for EmDash plugins. The skill analyzes your plugin's structure — TypeScript source, React admin UI, tests, npm publishing — and picks the workflows you need. Coverage includes:
 
@@ -102,9 +133,9 @@ Sets up GitHub Actions CI/CD workflows for EmDash plugins. The skill analyzes yo
 
 </details>
 
-### WordPress Readme Optimizer
+### 📝 WordPress Readme Optimizer
 
-Reviews a WordPress.org plugin `readme.txt`, scores each section, and produces a rewritten version aimed at stronger search visibility and better install conversion.
+Reviews a WordPress.org plugin `readme.txt` with a structured audit, scores each section, and produces a fully rewritten version optimized for search visibility and install conversion.
 
 **Trigger phrases:** *"optimize my readme"*, *"review my plugin listing"*, *"make my plugin page better"*
 
@@ -119,7 +150,7 @@ Reviews a WordPress.org plugin `readme.txt`, scores each section, and produces a
 
 </details>
 
-### Astro SEO
+### 🚀 Astro SEO
 
 Audits and improves SEO for Astro sites across nine categories: the `<Seo>` component and head metadata, linked JSON-LD graphs, content-collection Zod schemas, auto-generated Open Graph images, per-collection sitemaps with git-based lastmod, IndexNow submission, schema endpoints and schema maps for agent discovery, redirects and `FuzzyRedirect`, and performance defaults. The stack is opinionated and routes most fixes through [`@jdevalk/astro-seo-graph`](https://github.com/jdevalk/seo-graph).
 
@@ -136,7 +167,7 @@ Audits and improves SEO for Astro sites across nine categories: the `<Seo>` comp
 
 </details>
 
-### Readability Check
+### 📖 Readability Check
 
 Runs a readability audit on a blog post draft, calibrated for readers who read English as a second language. The skill checks nine categories:
 
@@ -162,6 +193,23 @@ Output combines a Flesch Reading Ease score (with target bands) and a per-catego
 - Hemingway Editor — sentence-length tiering
 
 </details>
+
+### 🏷 Metadata Check
+
+Reviews short high-value strings — page titles, meta descriptions, schema description fields, FAQ answers, GitHub repo taglines, profile bios, social-card copy — where Flesch scoring and paragraph-level readability checks don't apply. Per string, the skill checks:
+
+- Front-loading (most specific word near the start)
+- Concreteness (names, numbers, specific claims)
+- Aggressive filler and hedging removal
+- Active voice
+- No title/description duplication
+- Difficult-word substitution
+- Platform truncation fit (Google SERP, GitHub description, Twitter bio, OG)
+- One idea per field
+
+Output is per-string: the original, length, a ✓/⚠/✗ per check, and a concrete rewrite when something fails. Chained into by `astro-seo`, `wp-readme-optimizer`, `github-repo`, and `github-profile` for their metadata outputs.
+
+**Trigger phrases:** *"check my metadata"*, *"review my tagline"*, *"is this bio any good"*
 
 ## Contributing
 

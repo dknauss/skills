@@ -56,6 +56,7 @@ validate_skill_frontmatter() {
   fi
 }
 
+
 validate_skill_references() {
   local skill="$1"
   local dir
