@@ -31,6 +31,6 @@ Provide the readme.txt content by pasting it, attaching the file, or pointing th
 
 ## Install
 
-```
+```bash
 npx skills add jdevalk/skills --skill wp-readme-optimizer
 ```
