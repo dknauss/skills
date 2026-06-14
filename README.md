@@ -2,7 +2,7 @@
 
 > **Note:** The canonical source for all WordPress agent skills is [dknauss/agent-skills](https://github.com/dknauss/agent-skills) (fork of [WordPress/agent-skills](https://github.com/WordPress/agent-skills)). This repository is maintained as a public fork of [jdevalk/skills](https://github.com/jdevalk/skills) and stays as close to upstream as practical while preserving fork-specific workflow and distribution changes.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Latest Release](https://img.shields.io/github/v/release/dknauss/skills)](https://github.com/dknauss/skills/releases) [![Security Policy](https://img.shields.io/badge/security-policy-4c1)](SECURITY.md)
 [![Markdown Lint](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/markdown-lint.yml)
 [![Link Check](https://github.com/dknauss/skills/actions/workflows/link-check.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/link-check.yml)
 [![Validate Skills](https://github.com/dknauss/skills/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/dknauss/skills/actions/workflows/validate-skills.yml)
